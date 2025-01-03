@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { themeColors } from "./app/_core/utils/constants"
 
 const config: Config = {
   content: [
@@ -7,11 +8,11 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      'poppins': "Poppins",
+    },
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+      colors: themeColors,
     },
   },
   plugins: [],

@@ -1,22 +1,19 @@
-import { ReactNode } from "react"
+import { themeColors } from "@/app/_core/utils/constants"
+import { ButtonHTMLAttributes, CSSProperties } from "react"
+import styles from "./button.module.css"
 
-interface OutlinedButtonProps {
-  children?: ReactNode
-  onClick?: () => void
+interface OutlinedButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
+  color?: string
 }
-function OutlinedButton({ children, onClick: handleClick, className }: OutlinedButtonProps) {
+function OutlinedButton({ className, color = themeColors.primary, ...buttonProps }: OutlinedButtonProps) {
   return (
     <button
-      className={`
-        py-2 px-4 border-2 border-primary duration-200 hover:bg-primary
-        hover:text-white text-primary text-sm
-        ${className}
-      `}
-      onClick={handleClick}
-    >
-      {children}
-    </button>
+      className={`${styles.outlinedButton} ${className}`}
+      style={{ '--color': color } as CSSProperties}
+      type="button"
+      {...buttonProps}
+    />
   )
 }
 

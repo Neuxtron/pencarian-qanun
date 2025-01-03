@@ -1,22 +1,18 @@
 import { themeColors } from "@/app/_core/utils/constants"
-import { CSSProperties, ReactNode } from "react"
-import styles from "./flat_button.module.css"
+import { ButtonHTMLAttributes, CSSProperties } from "react"
+import styles from "./button.module.css"
 
-interface FlatButtonProps {
-  onClick?: () => void
-  children?: ReactNode
+interface FlatButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
   color?: string
 }
-function FlatButton({ onClick: handleClick, children, className, color = themeColors.primary }: FlatButtonProps) {
+function FlatButton({ className, color = themeColors.primary, ...buttonProps }: FlatButtonProps) {
   return (
     <button
       className={`${styles.flatButton} ${className}`}
-      onClick={handleClick}
       style={{ '--color': color } as CSSProperties}
-    >
-      {children}
-    </button>
+      {...buttonProps}
+    />
   )
 }
 

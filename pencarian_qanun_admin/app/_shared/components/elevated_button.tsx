@@ -7,9 +7,9 @@ interface ElevatedButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 function ElevatedButton({ color = themeColors.primary, className, ...buttonProps }: ElevatedButtonProps) {
   return (
-    <div className={`text-white w-fit text-sm ${className}`} style={{ backgroundColor: color }}>
+    <div className={`text-white w-fit text-sm h-fit ${className}`} style={{ backgroundColor: color }}>
       <button
-        className="duration-200 hover:bg-white/20 hover:shadow-lg py-2 px-5"
+        className="duration-200 hover:bg-white/30 hover:shadow-lg h-10 w-full px-5"
         type="button"
         {...buttonProps}
       />

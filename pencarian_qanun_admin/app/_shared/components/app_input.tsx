@@ -14,6 +14,7 @@ function AppInput({ className, id, placeholder, ...inputProps }: AppInputProps) 
       `}
       id={id} name={id}
       placeholder={placeholder}
+      autoComplete="off"
       {...inputProps}
     />
   )

@@ -1,35 +1,29 @@
 "use client"
 
 import { tambahKomisi } from "@/app/_actions/komisi"
+import { showErrorToast } from "@/app/_core/utils/helpers"
 import AppInput from "@/app/_shared/components/app_input"
 import ElevatedButton from "@/app/_shared/components/elevated_button"
 import { useRouter } from "next/navigation"
-import Swal from "sweetalert2"
 
-function TambahForm() {
+function TambahKomisiForm() {
   const router = useRouter()
   
   const handleTambah = async (formData: FormData) => {
     const success = await tambahKomisi(formData)
     
     if (!success) {
-      Swal.mixin({
-        icon: "error",
-        title: "Terjadi kesalahan",
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 1000,
-      }).fire()
+      showErrorToast()
       return
     }
 
-    router.push("/komisi?status=berhasil")
+    const title = "Berhasil menambah komisi"
+    router.push(`/komisi?icon=success&title=${title}`)
   }
 
   return (
     <div className="pl-8">
-      <form className="w-96 [&>*]:w-full pt-12" action={handleTambah}>
+      <form style={{ width: "28rem" }} className="[&>*]:w-full pt-12" action={handleTambah}>
         <AppInput
           id="nomorKomisi" placeholder="Nomor Komisi" type="number" min={1}
           required
@@ -43,4 +37,4 @@ function TambahForm() {
   )
 }
 
-export default TambahForm
+export default TambahKomisiForm

@@ -16,3 +16,10 @@
 body {
   background-color: white;
 }
+
+.swal2-actions {
+  flex-direction: row-reverse;
+}
+.swal2-actions button {
+  border-radius: 0;
+}

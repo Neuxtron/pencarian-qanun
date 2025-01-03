@@ -5,4 +5,5 @@ export const themeColors = {
   background: "#D0DEEF",
   textPrimary: "black",
   input: "#DBE6F3",
+  danger: '#DC3545',
 }

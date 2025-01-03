@@ -1,3 +1,5 @@
+import Swal from "sweetalert2"
+
 export const integerToRoman = (num: number) => {
   const romanValues: { [key: string]: number } = {
     M: 1000,
@@ -28,4 +30,15 @@ export const integerToRoman = (num: number) => {
 export const objectFromForm = <T>(formData: FormData) => {
   const obj = Object.fromEntries(formData.entries())
   return obj as T
+}
+
+export const showErrorToast = () => {
+  return Swal.mixin({
+    icon: "error",
+    title: "Terjadi kesalahan",
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+  }).fire()
 }

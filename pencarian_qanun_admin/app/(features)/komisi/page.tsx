@@ -56,7 +56,11 @@ function TableBody({ listKomisi }: TableBodyProps) {
           <tr key={key}>
             <td className="text-center">{nomorKomisi}</td>
             <td className="w-auto">{komisi.nama}</td>
-            <td><OutlinedButton className="w-full">Edit</OutlinedButton></td>
+            <td>
+              <Link href={`/komisi/edit/${komisi.id}`}>
+                <OutlinedButton className="w-full">Edit</OutlinedButton>
+              </Link>
+            </td>
           </tr>
         )
       })}

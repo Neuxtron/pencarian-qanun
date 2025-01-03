@@ -24,3 +24,8 @@ export const integerToRoman = (num: number) => {
   }
   return roman
 }
+
+export const objectFromForm = <T>(formData: FormData) => {
+  const obj = Object.fromEntries(formData.entries())
+  return obj as T
+}

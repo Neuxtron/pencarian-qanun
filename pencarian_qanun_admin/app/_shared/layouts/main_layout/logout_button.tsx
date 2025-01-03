@@ -1,19 +1,21 @@
 "use client"
 
 import { MdLogout } from "react-icons/md"
+import FlatButton from "../../components/flat_button"
 
 function LogoutButton() {
   // TODO: handle logout
   const handleLogout = () => {}
   
   return (
-    <button
-      className="text-[#FF4500] flex ml-auto items-center hover:text-[#FF4500]/70 text-sm"
+    <FlatButton
+      className="ml-auto"
       onClick={handleLogout}
+      color="#FF4500"
     >
       Logout
       <MdLogout className="ml-3" size="1.2rem" />
-    </button>
+    </FlatButton>
   )
 }
 

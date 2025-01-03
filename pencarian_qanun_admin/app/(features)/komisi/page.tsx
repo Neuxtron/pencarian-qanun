@@ -1,22 +1,27 @@
-import Komisi from "@/app/_core/models/komisi"
 import { integerToRoman } from "@/app/_core/utils/helpers"
 import ElevatedButton from "@/app/_shared/components/elevated_button"
 import OutlinedButton from "@/app/_shared/components/outlined_button"
 import MainLayout from "@/app/_shared/layouts/main_layout/main_layout"
 import { v4 } from "uuid"
 import styles from "./styles.module.css"
-import db from "@/app/db"
+import Link from "next/link"
+import { Komisi } from "@prisma/client"
+import { getKomisi } from "@/app/_actions/komisi"
+import ToastMessage from "./toast_message"
 
 async function DaftarKomisi() {
   const listKomisi = await getKomisi()
   
   return (
     <MainLayout title="Daftar Komisi">
-      <ElevatedButton>+ Tambah</ElevatedButton>
+      <Link href="/komisi/tambah">
+        <ElevatedButton>+ Tambah</ElevatedButton>
+      </Link>
       <table className={styles.dataTable}>
         <TableHead />
         <TableBody listKomisi={listKomisi} />
       </table>
+      <ToastMessage />
     </MainLayout>
   )
 }
@@ -57,11 +62,6 @@ function TableBody({ listKomisi }: TableBodyProps) {
       })}
     </tbody>
   )
-}
-
-async function getKomisi(): Promise<Komisi[]> {
-  const listKomisi: Komisi[] = await db.komisi.findMany()
-  return listKomisi
 }
 
 export default DaftarKomisi

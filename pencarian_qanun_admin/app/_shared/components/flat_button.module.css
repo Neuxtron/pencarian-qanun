@@ -1,0 +1,10 @@
+.flatButton {
+  display: flex;
+  align-items: center;
+  color: var(--color, var(--primary));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.flatButton:hover {
+  color: color-mix(in srgb, var(--color, var(--primary)) 70%, white);
+}

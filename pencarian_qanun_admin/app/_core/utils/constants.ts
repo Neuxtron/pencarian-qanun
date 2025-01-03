@@ -4,4 +4,5 @@ export const themeColors = {
   accent: "#FF4500",
   background: "#D0DEEF",
   textPrimary: "black",
+  input: "#DBE6F3",
 }

@@ -14,7 +14,30 @@ datasource db {
 }
 
 model Komisi {
-  id String @id @default(uuid())
-  nomorKomisi Int @map("nomor_komisi")
-  nama String @map("nama_komisi")
+  id          String @id @default(uuid())
+  nomorKomisi Int    @map("nomor_komisi")
+  nama        String @map("nama_komisi")
+
+  Qanun Qanun[]
+}
+
+model Qanun {
+  id       String @id @default(uuid())
+  idKomisi String
+  tahun    Int
+  nomor    Int    @map("nomor_qanun")
+  nama     String @map("nama_qanun")
+  namaFile String @map("nama_file")
+
+  komisi Komisi @relation(fields: [idKomisi], references: [id], onDelete: Cascade)
+
+  Tag Tag[]
+}
+
+model Tag {
+  id      String @id @default(uuid())
+  idQanun String
+  text    String
+
+  qanun Qanun @relation(fields: [idQanun], references: [id], onDelete: Cascade)
 }

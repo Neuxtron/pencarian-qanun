@@ -1,0 +1,19 @@
+.actionDropdown {
+  color: var(--primary);
+  border-color: white;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  appearance: none;
+  padding: .6rem ;
+  padding-left: .5rem;
+  padding-right: 1.5rem;
+  cursor: pointer;
+}
+
+.sortHead div {
+  display: flex;
+  cursor: pointer;
+}
+.sortHead svg {
+  font-size: 1.2rem;
+}

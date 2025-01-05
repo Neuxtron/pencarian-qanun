@@ -17,9 +17,27 @@ body {
   background-color: white;
 }
 
+/*-----/ S W A L /----- */
 .swal2-actions {
   flex-direction: row-reverse;
 }
 .swal2-actions button {
   border-radius: 0;
+}
+
+
+/*-----/ D A T A T A B L E /-----*/
+.data-table {
+  margin-top: 3rem;
+  width: 100%;
+}
+.data-table thead tr {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+.data-table thead td {
+  padding: .75rem .75rem;
+}
+.data-table tbody td {
+  padding: .5rem .75rem;
 }

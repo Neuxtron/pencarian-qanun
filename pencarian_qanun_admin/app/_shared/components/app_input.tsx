@@ -9,7 +9,7 @@ function AppInput({ className, id, placeholder, ...inputProps }: AppInputProps) 
   return (
     <input
       className={`
-        bg-input py-2 px-4 mb-1 placeholder:text-primary
+        bg-input py-2 px-4 mb-1 placeholder:text-primary text-sm
         ${className}
       `}
       id={id} name={id}

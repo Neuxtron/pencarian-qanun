@@ -22,6 +22,8 @@ function EditKomisiForm({ komisi }: EditKomisiFormProps) {
   }
 
   const handleHapus = async () => {
+    // TODO: delete qanun files
+    
     const result = await Swal.fire({
       icon: 'warning',
       title: "Apakah Anda ingin menghapus komisi ini?",

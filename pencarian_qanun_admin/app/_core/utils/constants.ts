@@ -6,4 +6,6 @@ export const themeColors = {
   textPrimary: "black",
   input: "#DBE6F3",
   danger: '#DC3545',
+  divider: "#AAAAAA",
+  caption: "#999999",
 }

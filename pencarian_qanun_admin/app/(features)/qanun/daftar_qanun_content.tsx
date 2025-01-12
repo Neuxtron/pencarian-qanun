@@ -22,8 +22,11 @@ function DaftarQanunContent({ allQanun, listKomisi }: DaftarQanunContentProps) {
   })
   const [listQanun, setListQanun] = useState<Qanun[]>(allQanun)
 
+  console.log(getQanunArgs.current.komisi)
+  
   const handleKomisiChange = (idKomisi: string) => {
     getQanunArgs.current.komisi = idKomisi
+    if (idKomisi === "") getQanunArgs.current.komisi = undefined
     updateQanunList()
   }
   const handleOrderQanun = (orderBy: Prisma.QanunOrderByWithRelationInput) => {
@@ -115,23 +118,23 @@ function TableHead({ selectedOrder, setOrder }: TableHeadProps) {
         <td className="w-4">#</td>
         <td className={`text-center w-24 ${styles.sortHead}`} onClick={toggleTahun}>
           <div>
-            Tahun
             {selectedOrder.tahun === "asc" && <MdArrowDropUp />}
             {selectedOrder.tahun === "desc" && <MdArrowDropDown />}
+            Tahun
           </div>
         </td>
         <td className={`text-center w-48 ${styles.sortHead}`} onClick={toggleNomor}>
           <div>
-            Nomor Qanun
             {selectedOrder.nomor === "asc" && <MdArrowDropUp />}
             {selectedOrder.nomor === "desc" && <MdArrowDropDown />}
+            Nomor Qanun
           </div>
         </td>
         <td className={`w-auto ${styles.sortHead}`} onClick={toggleNama}>
           <div>
-            Nama Qanun
             {selectedOrder.nama === "asc" && <MdArrowDropUp />}
             {selectedOrder.nama === "desc" && <MdArrowDropDown />}
+            Nama Qanun
           </div>
         </td>
         <td className="w-36 text-center">Aksi</td>
@@ -156,8 +159,8 @@ function TableBody({ listQanun }: TableBodyProps) {
           <tr key={key} className="[&>*]:text-center">
             <td>{index + 1}</td>
             <td>{qanun.tahun}</td>
-            <td className="text-left">{qanun.nomor}</td>
-            <td>{qanun.nama}</td>
+            <td>{qanun.nomor}</td>
+            <td className="!text-left">{qanun.nama}</td>
             <td>
               <Link href={`/qanun/edit/${qanun.id}`}>
                 <OutlinedButton className="w-full">Edit</OutlinedButton>

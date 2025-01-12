@@ -1,13 +1,14 @@
-import { InputHTMLAttributes } from "react"
+import { forwardRef, InputHTMLAttributes } from "react"
 
 interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   id: string
   placeholder: string
 }
-function AppInput({ className, id, placeholder, ...inputProps }: AppInputProps) {
+const AppInput = forwardRef<HTMLInputElement, AppInputProps>(({ className, id, placeholder, ...inputProps }: AppInputProps, ref) => {
   return (
     <input
+      ref={ref}
       className={`
         bg-input py-2 px-4 mb-1 placeholder:text-primary text-sm
         ${className}
@@ -18,6 +19,6 @@ function AppInput({ className, id, placeholder, ...inputProps }: AppInputProps) 
       {...inputProps}
     />
   )
-}
+})
 
 export default AppInput

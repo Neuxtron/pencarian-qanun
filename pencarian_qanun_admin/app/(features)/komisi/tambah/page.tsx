@@ -15,7 +15,7 @@ function TambahKomisi() {
 
 function KembaliButton() {
   return (
-    <Link href="/komisi">
+    <Link href="/komisi" className="w-fit block">
       <FlatButton>
         <MdArrowBack className="mr-3" size="1.2rem" />
         Kembali

@@ -10,6 +10,7 @@ function FlatButton({ className, color = themeColors.primary, ...buttonProps }: 
   return (
     <button
       className={`${styles.flatButton} ${className}`}
+      type="button"
       style={{ '--color': color } as CSSProperties}
       {...buttonProps}
     />

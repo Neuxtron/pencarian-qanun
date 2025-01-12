@@ -27,7 +27,7 @@ export const integerToRoman = (num: number) => {
   return roman
 }
 
-export const objectFromForm = <T>(formData: FormData) => {
+export const objectFromForm = <T = { [k:string]: string }>(formData: FormData) => {
   const obj = Object.fromEntries(formData.entries())
   return obj as T
 }

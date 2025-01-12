@@ -16,6 +16,9 @@
 body {
   background-color: white;
 }
+textarea {
+  resize: none;
+}
 
 /*-----/ S W A L /----- */
 .swal2-actions {

@@ -5,7 +5,7 @@ import MainLayout from "@/app/_shared/layouts/main_layout/main_layout"
 import { v4 } from "uuid"
 import Link from "next/link"
 import { getKomisi } from "@/app/_actions/komisi"
-import ToastMessage from "./toast_message"
+import ToastMessage from "../../_shared/components/toast_message"
 
 function DaftarKomisi() {
   return (

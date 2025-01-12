@@ -22,8 +22,8 @@ function TambahKomisiForm() {
   }
 
   return (
-    <div className="pl-8">
-      <form style={{ width: "28rem" }} className="[&>*]:w-full pt-12" action={handleTambah}>
+    <div className="pl-8 pt-12">
+      <form style={{ width: "28rem" }} className="[&>*]:w-full" action={handleTambah}>
         <AppInput
           id="nomorKomisi" placeholder="Nomor Komisi" type="number" min={1}
           required

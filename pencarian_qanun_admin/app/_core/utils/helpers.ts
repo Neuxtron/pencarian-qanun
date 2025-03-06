@@ -39,6 +39,7 @@ export const showErrorToast = () => {
     toast: true,
     position: "top-end",
     showConfirmButton: false,
+    showCloseButton: true,
     timer: 3000,
   }).fire()
 }

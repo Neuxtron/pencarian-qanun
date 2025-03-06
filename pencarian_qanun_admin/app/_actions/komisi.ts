@@ -48,6 +48,7 @@ export const editKomisi = async (formData: FormData, id: string) => {
 }
 
 export const hapusKomisi = async (id: string) => {
+  // TODO: hapus file qanun
   try {
     await db.komisi.delete({ where: { id } })
     return true

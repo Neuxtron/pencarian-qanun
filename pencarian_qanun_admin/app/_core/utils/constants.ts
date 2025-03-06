@@ -9,3 +9,5 @@ export const themeColors = {
   divider: "#AAAAAA",
   caption: "#999999",
 }
+
+export const qanunFolderPath = "qanun"

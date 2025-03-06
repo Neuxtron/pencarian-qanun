@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import Swal, { SweetAlertIcon } from "sweetalert2"
 
 function ToastMessage() {
-  const _ = useShowToast()
+  useShowToast()
   return null
 }
 
@@ -25,6 +25,7 @@ function useShowToast() {
       timer: 3000,
       timerProgressBar: true,
       showConfirmButton: false,
+      showCloseButton: true,
     }).fire()
 
     router.push(window.location.pathname)

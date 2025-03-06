@@ -9,34 +9,42 @@ import OutlinedButton from "@/app/_shared/components/outlined_button"
 import { themeColors } from "@/app/_core/utils/constants"
 import { Komisi } from "@prisma/client"
 import Swal from "sweetalert2"
+import { useState } from "react"
 
 interface EditKomisiFormProps {
   komisi: Komisi
 }
 function EditKomisiForm({ komisi }: EditKomisiFormProps) {
+    const [isLoading, setLoading] = useState(false)
   const router = useRouter()
   
   const handleEdit = async (formData: FormData) => {
+    setLoading(true)
     const success = await editKomisi(formData, komisi.id)
     postAction(success, "Berhasil edit komisi")
   }
 
   const handleHapus = async () => {
-    // TODO: delete qanun files
-    
     const result = await Swal.fire({
       icon: 'warning',
       title: "Apakah Anda ingin menghapus komisi ini?",
       showCancelButton: true,
-      confirmButtonColor: themeColors.primary,
+      cancelButtonText: "Batal",
+      confirmButtonColor: themeColors.danger,
+      confirmButtonText: "Hapus",
+      reverseButtons: true,
     })
     if (!result.isConfirmed) return
 
+    setLoading(true)
+    // TODO: delete qanun files
     const success = await hapusKomisi(komisi.id)
     postAction(success, "Berhasil hapus komisi")
+    setLoading(false)
   }
 
   const postAction = (success: boolean, title: string) => {
+    setLoading(false)
     if (!success) {
       showErrorToast()
       return
@@ -54,7 +62,7 @@ function EditKomisiForm({ komisi }: EditKomisiFormProps) {
         />
         <AppInput id="nama" placeholder="Nama Komisi" defaultValue={komisi.nama} required />
         
-        <FormActions onHapus={handleHapus} />
+        <FormActions onHapus={handleHapus} isLoading={isLoading} />
       </form>
     </div>
   )
@@ -62,18 +70,27 @@ function EditKomisiForm({ komisi }: EditKomisiFormProps) {
 
 interface FormActionsProps {
   onHapus: () => void
+  isLoading: boolean
 }
-function FormActions({ onHapus: handleHapus }: FormActionsProps) {
+function FormActions({ onHapus: handleHapus, isLoading }: FormActionsProps) {
   return (
     <div className="flex justify-end items-center pt-3">
       <OutlinedButton
         onClick={handleHapus}
         color={themeColors.danger}
         className="w-28 mr-2"
+        disabled={isLoading}
       >
         Hapus
       </OutlinedButton>
-      <ElevatedButton type="submit" className="!w-28">Edit</ElevatedButton>
+
+      <ElevatedButton
+        type="submit"
+        className="!w-28"
+        disabled={isLoading}
+      >
+        Edit
+      </ElevatedButton>
     </div>
   )
 }

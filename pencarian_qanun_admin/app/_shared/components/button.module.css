@@ -18,7 +18,11 @@
   line-height: 1.25rem;
   transition-duration: 200ms;
 }
-.outlinedButton:hover {
+.outlinedButton:hover:enabled {
   background-color: var(--color, var(--primary));
+  color: white;
+}
+.outlinedButton:disabled {
+  background-color: color-mix(in srgb, var(--color, var(--primary)) 50%, white);
   color: white;
 }

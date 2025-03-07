@@ -8,7 +8,7 @@ import { v4 } from "uuid"
 import CariQanunForm from "./cari_qanun_form"
 import FilterKomisiButton from "./filter_komisi_button"
 import { useRef, useState } from "react"
-import { Komisi, Prisma, Qanun } from "@prisma/client"
+import { Komisi, Prisma, Qanun, Tag } from "@prisma/client"
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md"
 import styles from "./styles.module.css"
 
@@ -48,7 +48,7 @@ function DaftarQanunContent({ allQanun, listKomisi }: DaftarQanunContentProps) {
   
   return (
     <>
-      <CariQanunForm />
+      <CariQanunForm onSearch={handleSearch} />
       <PageActions
         selectedKomisi={komisi}
         onKomisiChange={handleKomisiChange}

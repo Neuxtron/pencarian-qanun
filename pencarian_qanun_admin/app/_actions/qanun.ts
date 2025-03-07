@@ -14,12 +14,36 @@ export interface GetQanunArguments {
   searchText?: string
 }
 export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunArguments) => {
-  // TODO: search with tags
-  const listQanun = await db.qanun.findMany({
-    where: { idKomisi: komisi },
+  const tags = searchText ? searchText?.split(" ") : null
+  
+  const allQanun = await db.qanun.findMany({
+    include: { tags: true },
     orderBy: selectedOrder,
   })
-  return listQanun
+  const nameResult = await db.qanun.findMany({
+    where: {
+      idKomisi: komisi,
+      nama: { contains: searchText },
+    },
+    orderBy: selectedOrder,
+  })
+
+  const nameResultIds = nameResult.map((qanun) => qanun.id)
+  const tagsResult = allQanun.filter((qanun) => {
+    if (nameResultIds.includes(qanun.id)) return false
+    if (!tags) return true
+    const qanunTags = qanun.tags.map((tag) => tag.text)
+    
+    let valid = true
+    tags.forEach((tag) => {
+      if (!qanunTags.includes((tag))) valid = false
+    })
+    
+    return valid
+  })
+
+  const allResult = [...tagsResult, ...nameResult] as Qanun[]
+  return allResult
 }
 
 export const getSingleQanun = async (id: string) => {

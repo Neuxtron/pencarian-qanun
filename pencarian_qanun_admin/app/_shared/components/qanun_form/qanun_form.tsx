@@ -20,6 +20,9 @@ function QanunForm({ listKomisi, onSubmit, formActions, qanun, listTags: default
   const [fileError, setFileError] = useState("")
   const [komisi, setKomisi] = useState<string | undefined>(qanun?.idKomisi)
 
+  const maxSizeMb = parseInt(process.env.NEXT_PUBLIC_MAX_QANUN_SIZE ?? "1")
+  const maxSize = maxSizeMb * 1024 * 1024
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     setFileError("")
     e.preventDefault()
@@ -29,6 +32,10 @@ function QanunForm({ listKomisi, onSubmit, formActions, qanun, listTags: default
 
     if (!qanun && newQanun.file.size === 0) {
       setFileError("Lampiran tidak boleh kosong")
+      return
+    }
+    if (newQanun.file.size > maxSize) {
+      setFileError(`Ukuran file tidak boleh lebih dari ${maxSizeMb}mb`)
       return
     }
 

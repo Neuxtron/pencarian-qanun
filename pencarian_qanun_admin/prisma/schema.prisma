@@ -28,6 +28,7 @@ model Qanun {
   nomor    Int    @map("nomor_qanun")
   nama     String @map("nama_qanun")
   namaFile String @map("nama_file")
+  views    Int    @default(0)
 
   komisi Komisi @relation(fields: [idKomisi], references: [id], onDelete: Cascade)
 

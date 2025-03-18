@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `qanun` ADD COLUMN `views` INTEGER NOT NULL DEFAULT 0;

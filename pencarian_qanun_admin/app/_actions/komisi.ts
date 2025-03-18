@@ -4,6 +4,7 @@ import { Komisi } from "@prisma/client"
 import db from "../db"
 import { objectFromForm } from "../_core/utils/helpers"
 
+//-----/ READ /-----//
 export const getKomisi = async (): Promise<Komisi[]> => {
   const listKomisi: Komisi[] = await db.komisi.findMany({
     orderBy: { nomorKomisi: "asc" }
@@ -16,6 +17,9 @@ export const getSingleKomisi = async (id: string): Promise<Komisi | null> => {
   return komisi
 }
 
+export const getKomisiCount = async () => await db.komisi.count()
+
+//-----/ CREATE /-----//
 export const tambahKomisi = async (formData: FormData) => {
   try {
     const raw = objectFromForm<{ [k: string]: string }>(formData)
@@ -30,6 +34,7 @@ export const tambahKomisi = async (formData: FormData) => {
   return false
 }
 
+//-----/ UPDATE /-----//
 export const editKomisi = async (formData: FormData, id: string) => {
   try {
     const raw = objectFromForm<{ [k: string]: string }>(formData)
@@ -47,6 +52,7 @@ export const editKomisi = async (formData: FormData, id: string) => {
   return false
 }
 
+//-----/ DELETE /-----//
 export const hapusKomisi = async (id: string) => {
   // TODO: hapus file qanun
   try {

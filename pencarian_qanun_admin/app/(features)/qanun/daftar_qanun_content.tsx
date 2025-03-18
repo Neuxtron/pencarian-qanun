@@ -22,8 +22,6 @@ function DaftarQanunContent({ allQanun, listKomisi }: DaftarQanunContentProps) {
   })
   const [listQanun, setListQanun] = useState<Qanun[]>(allQanun)
 
-  console.log(getQanunArgs.current.komisi)
-  
   const handleKomisiChange = (idKomisi: string) => {
     getQanunArgs.current.komisi = idKomisi
     if (idKomisi === "") getQanunArgs.current.komisi = undefined
@@ -33,7 +31,6 @@ function DaftarQanunContent({ allQanun, listKomisi }: DaftarQanunContentProps) {
     getQanunArgs.current.selectedOrder = orderBy
     updateQanunList()
   }
-  // TODO: search
   const handleSearch = (searchText: string) => {
     getQanunArgs.current.searchText = searchText
     updateQanunList()

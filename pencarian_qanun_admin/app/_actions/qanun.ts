@@ -13,6 +13,8 @@ export interface GetQanunArguments {
   selectedOrder: Prisma.QanunOrderByWithRelationInput
   searchText?: string
 }
+
+//-----/ READ /-----//
 export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunArguments) => {
   const tags = searchText ? searchText?.split(" ") : null
   
@@ -46,6 +48,17 @@ export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunAr
   return allResult
 }
 
+export const getQanunPopuler = async () => {
+  return await db.qanun.findMany({
+    select: {
+      nama: true,
+      views: true,
+    },
+    orderBy: { views: "desc" },
+    take: 3,
+  })
+}
+
 export const getSingleQanun = async (id: string) => {
   const qanun: Qanun | null = await db.qanun.findFirst({ where: { id } })
   const listTagsRaw = await db.tag.findMany({ where: { idQanun: qanun?.id } })
@@ -53,6 +66,9 @@ export const getSingleQanun = async (id: string) => {
   return { qanun, listTags }
 }
 
+export const getQanunCount = async () => await db.qanun.count()
+
+//-----/ CREATE /-----//
 export const tambahQanun = async (newQanun: NewQanun, listTags: string[]) => {
   try {
     const qanun = await db.qanun.create({
@@ -85,6 +101,7 @@ export const tambahQanun = async (newQanun: NewQanun, listTags: string[]) => {
   return false
 }
 
+//-----/ UPDATE /-----//
 export const editQanun = async (newQanun: NewQanun, listTags: string[], oldFileName?: string) => {
   const fileChanged = newQanun.file.size !== 0
   
@@ -133,6 +150,7 @@ export const editQanun = async (newQanun: NewQanun, listTags: string[], oldFileN
   return false
 }
 
+//-----/ DELETE /-----//
 export const hapusQanun = async (qanun: Qanun) => {
   try {
     const fileName = `${qanun.id} - ${qanun.namaFile}`

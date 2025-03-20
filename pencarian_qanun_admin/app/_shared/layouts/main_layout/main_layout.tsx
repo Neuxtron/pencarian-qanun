@@ -4,7 +4,6 @@ import { v4 } from "uuid"
 import NavbarItemView from "./navbar_item"
 import navBars from "../../data/navbars"
 import { ReactNode } from "react"
-import { MdLogout } from "react-icons/md"
 import LogoutButton from "./logout_button"
 
 interface MainLayoutProps {

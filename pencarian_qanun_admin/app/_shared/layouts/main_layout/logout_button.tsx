@@ -2,10 +2,16 @@
 
 import { MdLogout } from "react-icons/md"
 import FlatButton from "../../components/flat_button"
+import { removeToken } from "@/app/_actions/auth"
+import { useRouter } from "next/navigation"
 
 function LogoutButton() {
-  // TODO: handle logout
-  const handleLogout = () => {}
+  const router = useRouter()
+  
+  const handleLogout = async () => {
+    await removeToken()
+    router.push("/login")
+  }
   
   return (
     <FlatButton

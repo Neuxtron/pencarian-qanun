@@ -42,3 +42,9 @@ model Tag {
 
   qanun Qanun @relation(fields: [idQanun], references: [id], onDelete: Cascade)
 }
+
+model Users {
+  id       String @id @default(uuid())
+  username String
+  password String
+}

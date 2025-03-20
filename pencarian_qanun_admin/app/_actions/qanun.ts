@@ -21,6 +21,7 @@ export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunAr
   const allQanun = await db.qanun.findMany({
     include: { tags: true },
     orderBy: selectedOrder,
+    where: { idKomisi: komisi }
   })
   const nameResult = await db.qanun.findMany({
     where: {

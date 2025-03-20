@@ -2,11 +2,12 @@ import { getKomisiCount } from "@/app/_actions/komisi"
 import { getQanunCount, getQanunPopuler } from "@/app/_actions/qanun"
 import { themeColors } from "@/app/_core/utils/constants"
 import MainLayout from "@/app/_shared/layouts/main_layout/main_layout"
-import { PieChart, PieValueType } from "@mui/x-charts"
+import { PieValueType } from "@mui/x-charts"
 import { MakeOptional } from "@mui/x-charts/internals"
 import { MdArrowForward, MdOutlineBook, MdOutlineCategory, MdOutlineVisibility } from "react-icons/md";
 import Link from "next/link"
 import { IconType } from "react-icons"
+import QanunChart from "./qanun_chart"
 
 async function Dashboard() {
   const listQanunPopuler = await getQanunPopuler()
@@ -25,31 +26,19 @@ async function Dashboard() {
     
     return {
       value: views,
-      color: colors[index]
+      label: qanun.nama,
+      color: colors[index],
     }
   })
   
   return (
     <MainLayout title="Dashboard">
       
-      {/* Chart */}
       <div className="flex p-12">
+
+        {/* Chart */}
         <div className="relative size-44">
-          <PieChart
-            className="flex-grow-0 size-44"
-            series={[
-              {
-                data,
-                innerRadius: 55,
-                outerRadius: 80,
-                paddingAngle: 5,
-                startAngle: -179,
-                endAngle: 180,
-                cx: 75,
-              }
-            ]}
-          />
-          <div className="absolute h-full w-full top-0 left-0"></div>
+          <QanunChart data={data} />
         </div>
 
         {/* List */}
@@ -58,6 +47,7 @@ async function Dashboard() {
           <div className="w-[32rem] pt-8">
             {listQanunPopuler.map((qanun, index) => (
               <QanunItem
+                key={index}
                 color={colors[index]}
                 number={index + 1}
                 qanun={qanun}

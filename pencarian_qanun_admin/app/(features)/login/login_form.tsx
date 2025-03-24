@@ -2,19 +2,22 @@
 
 import { setToken } from '@/app/_actions/auth'
 import { attemptLogin } from '@/app/_actions/users'
+import { themeColors } from '@/app/_core/utils/constants'
 import AppInput from '@/app/_shared/components/app_input'
 import ElevatedButton from '@/app/_shared/components/elevated_button'
 import { useRouter } from 'next/navigation'
-import React, { createRef } from 'react'
+import React, { createRef, useState } from 'react'
 import Swal from 'sweetalert2'
 
 function LoginForm() {
   const router = useRouter()
   const usernameRef = createRef<HTMLInputElement>()
   const passwordRef = createRef<HTMLInputElement>()
+  const [loading, setLoading] = useState(false)
   
   const handleLogin: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
+    setLoading(true)
     
     const username = usernameRef.current?.value
     const password = passwordRef.current?.value
@@ -26,6 +29,7 @@ function LoginForm() {
       router.push("/")
     }
     showToast(token !== null)
+    setLoading(false)
   }
 
   const showToast = (valid: boolean) => {
@@ -48,7 +52,14 @@ function LoginForm() {
     >
       <AppInput ref={usernameRef} id='username' placeholder='Username' required />
       <AppInput ref={passwordRef} id='password' type='password' placeholder='Kata Sandi' required />
-      <ElevatedButton className='mt-6 !px-10 self-end' type='submit'>Masuk</ElevatedButton>
+      <ElevatedButton
+        className='mt-6 !px-10 self-end disabled:bg-primary/50'
+        type='submit'
+        disabled={loading}
+        color={loading ? "" : themeColors.primary}
+      >
+        Masuk
+      </ElevatedButton>
     </form>
   )
 }

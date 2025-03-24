@@ -12,14 +12,15 @@ export interface GetQanunArguments {
   komisi?: string
   selectedOrder: Prisma.QanunOrderByWithRelationInput
   searchText?: string
+  includeKomisi?: boolean
 }
 
 //-----/ READ /-----//
-export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunArguments) => {
+export const getQanun = async ({ komisi, selectedOrder, searchText, includeKomisi = false }: GetQanunArguments) => {
   const tags = searchText ? searchText?.split(" ") : null
   
   const allQanun = await db.qanun.findMany({
-    include: { tags: true },
+    include: { tags: true, komisi: includeKomisi },
     orderBy: selectedOrder,
     where: { idKomisi: komisi }
   })
@@ -29,6 +30,7 @@ export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunAr
       nama: { contains: searchText },
     },
     orderBy: selectedOrder,
+    include: { komisi: includeKomisi }
   })
 
   const nameResultIds = nameResult.map((qanun) => qanun.id)
@@ -45,7 +47,7 @@ export const getQanun = async ({ komisi, selectedOrder, searchText }: GetQanunAr
     return valid
   })
 
-  const allResult = [...tagsResult, ...nameResult] as Qanun[]
+  const allResult = [...tagsResult, ...nameResult]
   return allResult
 }
 
@@ -66,6 +68,39 @@ export const getSingleQanun = async (id: string) => {
   const listTags = listTagsRaw.map((tag) => tag.text)
   return { qanun, listTags }
 }
+
+// export const searchQanun = async (search: string) => {
+//   const tags = search ? search?.split(" ") : null
+  
+//   const allQanun = await db.qanun.findMany({
+//     include: { tags: true, komisi: true },
+//     orderBy: { tahun: "desc" },
+//   })
+//   const nameResult = await db.qanun.findMany({
+//     where: {
+//       nama: { contains: search },
+//     },
+//     orderBy: { tahun: "desc" },
+//     include: { komisi: true }
+//   })
+
+//   const nameResultIds = nameResult.map((qanun) => qanun.id)
+//   const tagsResult = allQanun.filter((qanun) => {
+//     if (nameResultIds.includes(qanun.id)) return false
+//     if (!tags) return true
+//     const qanunTags = qanun.tags.map((tag) => tag.text)
+    
+//     let valid = true
+//     tags.forEach((tag) => {
+//       if (!qanunTags.includes((tag))) valid = false
+//     })
+    
+//     return valid
+//   })
+
+//   const allResult = [...tagsResult, ...nameResult]
+  
+// }
 
 export const getQanunCount = async () => await db.qanun.count()
 

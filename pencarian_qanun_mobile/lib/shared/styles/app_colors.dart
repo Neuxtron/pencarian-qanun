@@ -9,4 +9,5 @@ class AppColors {
   static const Color divider = Color(0xFFAAAAAA);
   static const Color caption = Color(0xFF999999);
   static const Color input = Color(0xFFDBE6F3);
+  static const Color loading = Color(0xFFBDBDBD);
 }

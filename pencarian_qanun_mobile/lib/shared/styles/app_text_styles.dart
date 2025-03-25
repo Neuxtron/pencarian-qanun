@@ -6,12 +6,12 @@ class AppTextStyles {
   static const TextStyle bodyLarge = TextStyle(fontSize: 16);
 
   static const TextStyle titleLarge =
-      TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
 
   static const TextStyle headlineSmall =
-      TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
   static const TextStyle headlineMedium =
-      TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
   static const TextStyle headlineLarge =
-      TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 24, fontWeight: FontWeight.w500);
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
-import 'package:pencarian_qanun_mobile/features/home/repositories/komisi_repository.dart';
+import 'package:pencarian_qanun_mobile/core/repositories/komisi_repository.dart';
 import 'package:pencarian_qanun_mobile/features/home/views/home_page.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
+import 'package:pencarian_qanun_mobile/routes.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_radius.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_text_styles.dart';
@@ -39,6 +40,7 @@ class _QuickActions extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        // TODO: onpressed
         children: [
           _QuickActionsItem(
             icon: Icons.history,
@@ -48,7 +50,7 @@ class _QuickActions extends StatelessWidget {
           _QuickActionsItem(
             icon: Icons.search,
             text: "Pencarian",
-            onPressed: () {},
+            onPressed: () => changeIndex(1),
           ),
           _QuickActionsItem(
             icon: Icons.star_border,
@@ -90,7 +92,7 @@ class _QuickActionsItem extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  color: Colors.white,
                   borderRadius: AppRadius.medium,
                   boxShadow: const [
                     BoxShadow(
@@ -227,8 +229,13 @@ class _KomisiItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          // TODO: navigate
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              Routes.detailKomisi,
+              arguments: komisi,
+            );
+          },
           child: Column(
             children: [
               Container(

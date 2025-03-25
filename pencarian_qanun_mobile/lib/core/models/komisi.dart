@@ -11,7 +11,7 @@ class Komisi {
     required this.nomorKomisi,
   });
 
-  factory Komisi.toJson(Map<String, dynamic> json) {
+  factory Komisi.fromJson(Map<String, dynamic> json) {
     final nomorKomisi = toRoman(json["nomorKomisi"]);
 
     return Komisi(

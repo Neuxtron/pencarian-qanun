@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
-import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
 import 'package:pencarian_qanun_mobile/features/komisi/models/detail_komisi.dart';
 import 'package:pencarian_qanun_mobile/features/komisi/repositories/detail_komisi_repository.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_radius.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_text_styles.dart';
+import 'package:pencarian_qanun_mobile/shared/widgets/qanun_item.dart';
 import 'package:pencarian_qanun_mobile/shared/widgets/snapshot_handler.dart';
 
 class KomisiPage extends StatelessWidget {
@@ -178,7 +178,10 @@ class _DetailKomisiItem extends StatelessWidget {
             if (detailKomisi == null) return const _LoadingQanunItem();
 
             final qanun = detailKomisi!.listQanun[index];
-            return _QanunItem(qanun: qanun);
+            return QanunItem(
+              qanun: qanun,
+              isDetailKomisi: true,
+            );
           },
         ),
       ],
@@ -187,7 +190,7 @@ class _DetailKomisiItem extends StatelessWidget {
 }
 
 class _LoadingQanunItem extends StatelessWidget {
-  const _LoadingQanunItem({super.key});
+  const _LoadingQanunItem();
 
   @override
   Widget build(BuildContext context) {
@@ -197,82 +200,6 @@ class _LoadingQanunItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.loading,
         borderRadius: AppRadius.small,
-      ),
-    );
-  }
-}
-
-class _QanunItem extends StatelessWidget {
-  const _QanunItem({required this.qanun});
-  final Qanun qanun;
-
-  @override
-  Widget build(BuildContext context) {
-    final nomorString = qanun.nomor.toString().padLeft(2, "0");
-    return Container(
-      height: 64,
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: AppRadius.small,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 4),
-            blurRadius: 12,
-          ),
-        ],
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          // TODO: ontap
-          onTap: () {},
-          child: Row(
-            children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: ColoredBox(
-                  color: AppColors.primary,
-                  child: Center(
-                    child: Text(
-                      nomorString,
-                      style: AppTextStyles.headlineLarge
-                          .apply(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(qanun.nama),
-                            Text(
-                              "${qanun.tahun} No. ${qanun.nomor}",
-                              style: const TextStyle(color: AppColors.caption),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.caption,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

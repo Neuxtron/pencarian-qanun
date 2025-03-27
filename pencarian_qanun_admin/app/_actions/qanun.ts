@@ -10,7 +10,7 @@ import { unlink } from "fs/promises"
 
 export interface GetQanunArguments {
   komisi?: string
-  selectedOrder: Prisma.QanunOrderByWithRelationInput
+  selectedOrder: Prisma.QanunOrderByWithRelationInput | Prisma.QanunOrderByWithRelationInput[]
   searchText?: string
   includeKomisi?: boolean
 }

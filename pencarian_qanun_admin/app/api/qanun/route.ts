@@ -10,14 +10,14 @@ export async function GET(request: Request, { searchParams: params }: GetParams)
     const { searchParams } = new URL(request.url)
     const search = searchParams.get("search") ?? ""
     const args: GetQanunArguments = {
-      selectedOrder: { tahun: "desc" },
+      selectedOrder: [
+        { komisi: { nomorKomisi: "asc" } },
+        { nomor: "asc" },
+      ],
       searchText: search,
       includeKomisi: true
     }
-    const listQanun = (await getQanun(args)).map(qanun => {
-      const { nama: namaKomisi, nomorKomisi } = qanun.komisi
-      return { ...qanun, namaKomisi, nomorKomisi }
-    })
+    const listQanun = await getQanun(args)
 
     return Response.json({
       status: true,

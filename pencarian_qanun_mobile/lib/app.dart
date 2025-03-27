@@ -10,6 +10,7 @@ class QanunApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      title: "Pencarian Qanun",
       initialRoute: Routes.main,
       routes: Routes.routes,
     );

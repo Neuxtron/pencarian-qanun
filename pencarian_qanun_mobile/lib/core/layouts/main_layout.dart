@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
 import 'package:pencarian_qanun_mobile/core/repositories/komisi_repository.dart';
 import 'package:pencarian_qanun_mobile/features/home/views/home_page.dart';
+import 'package:pencarian_qanun_mobile/features/pencarian/views/pencarian_page.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 
 class MainLayout extends StatefulWidget {
@@ -20,9 +21,7 @@ class _MainLayoutState extends State<MainLayout> {
           komisiFuture: _komisiFuture,
           changeIndex: _changeIndex,
         ),
-        const Center(
-          child: Text("Pencarian"),
-        ),
+        const PencarianPage(),
         const Center(
           child: Text("Chatbot"),
         ),

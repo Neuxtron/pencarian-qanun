@@ -14,10 +14,22 @@ export async function GET(_: Request, { params }: GetParams) {
         tags: true,
       }
     })
+
+    const formattedQanun = {
+      ...qanun,
+      details: {
+        tags: qanun?.tags,
+        namaFile: qanun?.namaFile,
+      }
+    }
+    delete formattedQanun.views
+    delete formattedQanun.tags
+    delete formattedQanun.namaFile
+    
     return Response.json({
       status: true,
       message: "Berhasil mengambil data qanun",
-      data: qanun,
+      data: formattedQanun,
     })
   } catch (error) {
     console.log(error)

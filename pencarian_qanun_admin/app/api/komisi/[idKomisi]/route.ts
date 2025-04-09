@@ -8,6 +8,10 @@ interface GetParams {
 export async function GET(_: Request, { params }: GetParams) {
   try {
     const { idKomisi } = await params
+    const komisi = await db.komisi.findFirst({
+      where: { id: idKomisi },
+    })
+    
     const listQanun = await db.qanun.findMany({
       select: {
         id: true,
@@ -38,6 +42,7 @@ export async function GET(_: Request, { params }: GetParams) {
     return Response.json({
       status: true,
       message: "Berhasil mengambil data qanun",
+      komisi,
       data: groupedByTahun,
     })
   } catch (error) {

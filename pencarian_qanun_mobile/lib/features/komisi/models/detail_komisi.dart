@@ -9,12 +9,17 @@ class DetailKomisi {
     required this.listQanun,
   });
 
-  factory DetailKomisi.fromJson(Map<String, dynamic> json) {
+  factory DetailKomisi.fromJson(
+    Map<String, dynamic> json,
+    Map<String, dynamic> komisiJson,
+  ) {
     final listQanunJson = json["data"] as List;
-    
+
     return DetailKomisi(
       tahun: json["tahun"],
-      listQanun: listQanunJson.map((e) => Qanun.fromJson(e)).toList(),
+      listQanun: listQanunJson
+          .map((e) => Qanun.fromJson(e, komisiJson: komisiJson))
+          .toList(),
     );
   }
 }

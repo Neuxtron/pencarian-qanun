@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:path/path.dart';
+import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
@@ -80,12 +83,14 @@ class DatabaseService {
   //-----/ Riwayat Pencarian /-----//
   Future<List<String>> getRiwayatPencarian() async {
     final db = await database;
-    final riwayatPencarianMap = await db.query('riwayat_pencarian');
+    final riwayatPencarianMap =
+        await db.query('riwayat_pencarian', orderBy: "id DESC");
     return riwayatPencarianMap.map((e) => e["text"] as String).toList();
   }
 
   Future addRiwayatPencarian(String text) async {
     final db = await database;
+    await db.delete("riwayat_pencarian", where: "text=?", whereArgs: [text]);
     await db.insert('riwayat_pencarian', {"text": text});
   }
 
@@ -97,6 +102,19 @@ class DatabaseService {
   //-----/ Komisi /-----//
 
   //-----/ Qanun /-----//
+  Future readQanun(Qanun qanun) async {
+    try {
+      final db = await database;
+      await db.delete(
+        "riwayat",
+        where: "id_qanun=?",
+        whereArgs: [qanun.id],
+      );
+      await db.insert("riwayat", qanun.toMap());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   //-----/ Tag /-----//
 }

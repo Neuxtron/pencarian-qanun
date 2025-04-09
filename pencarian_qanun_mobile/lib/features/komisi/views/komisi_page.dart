@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
+import 'package:pencarian_qanun_mobile/core/repositories/komisi_repository.dart';
 import 'package:pencarian_qanun_mobile/features/komisi/models/detail_komisi.dart';
-import 'package:pencarian_qanun_mobile/features/komisi/repositories/detail_komisi_repository.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_radius.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_text_styles.dart';
@@ -15,7 +15,7 @@ class KomisiPage extends StatelessWidget {
     return AppBar(
       elevation: 0,
       shadowColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.background,
       foregroundColor: AppColors.accent,
     );
   }
@@ -84,14 +84,27 @@ class _PageHeader extends StatelessWidget {
   }
 }
 
-class _DetailKomisiListView extends StatelessWidget {
+class _DetailKomisiListView extends StatefulWidget {
   const _DetailKomisiListView({required this.idKomisi});
   final String idKomisi;
 
   @override
+  State<_DetailKomisiListView> createState() => _DetailKomisiListViewState();
+}
+
+class _DetailKomisiListViewState extends State<_DetailKomisiListView> {
+  late Future<List<DetailKomisi>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = KomisiRepository().getDetailKomisi(widget.idKomisi);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: DetailKomisiRepository().getDetailKomisi(idKomisi),
+      future: _future,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SnapshotHandler(

@@ -1,4 +1,4 @@
-import 'package:pencarian_qanun_mobile/shared/utils/helpers.dart';
+import 'package:pencarian_qanun_mobile/shared/utils/app_utils.dart';
 
 class Komisi {
   final String id;
@@ -12,7 +12,7 @@ class Komisi {
   });
 
   factory Komisi.fromJson(Map<String, dynamic> json) {
-    final nomorKomisi = toRoman(json["nomorKomisi"]);
+    final nomorKomisi = AppUtils.toRoman(json["nomorKomisi"]);
 
     return Komisi(
       id: json["id"],

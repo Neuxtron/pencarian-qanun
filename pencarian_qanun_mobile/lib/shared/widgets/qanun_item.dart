@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
+import 'package:pencarian_qanun_mobile/routes.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_radius.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_text_styles.dart';
@@ -38,8 +39,9 @@ class QanunItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          // TODO: ontap
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, Routes.qanun, arguments: qanun);
+          },
           child: Row(
             children: [
               AspectRatio(

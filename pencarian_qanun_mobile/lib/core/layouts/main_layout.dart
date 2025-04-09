@@ -4,6 +4,7 @@ import 'package:pencarian_qanun_mobile/core/repositories/komisi_repository.dart'
 import 'package:pencarian_qanun_mobile/features/home/views/home_page.dart';
 import 'package:pencarian_qanun_mobile/features/pencarian/views/pencarian_page.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
+import 'package:pencarian_qanun_mobile/shared/utils/app_utils.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -28,8 +29,8 @@ class _MainLayoutState extends State<MainLayout> {
       ];
 
   final List<AppBar?> _appBars = [
-    null,
-    null,
+    AppUtils.emptyAppBar(),
+    AppUtils.emptyAppBar(),
     null,
   ];
 
@@ -51,12 +52,10 @@ class _MainLayoutState extends State<MainLayout> {
         alignment: Alignment.bottomCenter,
         fit: StackFit.expand,
         children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: _pages[_currentIndex],
-              ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 100),
+              child: _pages[_currentIndex],
             ),
           ),
           _BottomNav(

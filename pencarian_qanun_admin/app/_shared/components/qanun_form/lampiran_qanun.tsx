@@ -49,6 +49,7 @@ function LampiranQanun({ error, fileName, idQanun }: LampiranQanunProps) {
         name="file"
         id="file"
         className="hidden"
+        accept=".pdf"
         onChange={handleFilePick}
       />
       <p className="text-sm text-red-500 pt-1">{error}</p>
@@ -74,7 +75,7 @@ function FileLabel({ fileName, isHover }: FileLabelProps) {
         ? <MdOutlineDescription size="1.4rem" className="flex-shrink-0" />
         : <MdOutlineFileUpload size="1.4rem" className="flex-shrink-0" />
       }
-      <p className="pl-3 overflow-hidden text-ellipsis">{getText()}</p>
+      <p className="pl-3 text-ellipsis line-clamp-1">{getText()}</p>
     </>
   )
 }

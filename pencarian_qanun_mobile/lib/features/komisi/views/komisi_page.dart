@@ -61,7 +61,7 @@ class _PageHeader extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                komisi.nomorKomisi,
+                komisi.nomorRomawi,
                 style: AppTextStyles.headlineLarge.apply(
                   color: AppColors.primary,
                 ),

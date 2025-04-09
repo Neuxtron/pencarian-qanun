@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 
 class AppUtils {
@@ -43,6 +44,14 @@ class AppUtils {
       toolbarHeight: 0,
       shadowColor: Colors.transparent,
       backgroundColor: backgroundColor ?? AppColors.background,
+    );
+  }
+
+  static showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      backgroundColor: AppColors.secondary,
+      textColor: Colors.black,
     );
   }
 }

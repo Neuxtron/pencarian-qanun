@@ -243,7 +243,7 @@ class _KomisiItem extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 color: AppColors.primary,
                 child: Text(
-                  "Komisi ${komisi.nomorKomisi}",
+                  "Komisi ${komisi.nomorRomawi}",
                   textAlign: TextAlign.center,
                   style: AppTextStyles.titleLarge.apply(
                     color: Colors.white,

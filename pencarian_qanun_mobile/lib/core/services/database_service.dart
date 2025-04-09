@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:path/path.dart';
+import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
 import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -22,7 +23,7 @@ class DatabaseService {
         //-----/ Migrate Komisi Table /-----//
         await db.execute("""
           CREATE TABLE komisi (
-            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            id varchar(191) PRIMARY KEY NOT NULL,
             nama_komisi varchar(191) NOT NULL,
             nomor_komisi INTEGER NOT NULL
           )
@@ -31,13 +32,13 @@ class DatabaseService {
         //-----/ Migrate Qanun Table /-----//
         await db.execute("""
           CREATE TABLE qanun (
-            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            idKomisi varchar(191) NOT NULL,
+            id varchar(191) PRIMARY KEY NOT NULL,
+            id_komisi varchar(191) NOT NULL,
             tahun INTEGER NOT NULL,
             nomor_qanun INTEGER NOT NULL,
             nama_qanun varchar(191) NOT NULL,
             nama_file varchar(191) NOT NULL,
-            FOREIGN KEY(idKomisi) REFERENCES komisi(id) ON DELETE CASCADE ON UPDATE CASCADE
+            FOREIGN KEY(id_komisi) REFERENCES komisi(id) ON DELETE CASCADE ON UPDATE CASCADE
           )
         """);
 
@@ -100,19 +101,44 @@ class DatabaseService {
   }
 
   //-----/ Komisi /-----//
+  Future _saveKomisi(Komisi komisi) async {
+    final db = await database;
+    final exist =
+        await db.query("komisi", where: "id=?", whereArgs: [komisi.id]);
+    if (exist.isEmpty) {
+      await db.insert("komisi", komisi.toSaveMap());
+    }
+  }
 
   //-----/ Qanun /-----//
   Future readQanun(Qanun qanun) async {
     try {
       final db = await database;
-      await db.delete(
-        "riwayat",
-        where: "id_qanun=?",
-        whereArgs: [qanun.id],
-      );
-      await db.insert("riwayat", qanun.toMap());
+      await db.delete("riwayat", where: "id_qanun=?", whereArgs: [qanun.id]);
+      await db.insert("riwayat", qanun.toReadMap());
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  Future saveQanun(Qanun qanun) async {
+    try {
+      final db = await database;
+      await _saveKomisi(qanun.komisi!);
+      await db.insert("qanun", qanun.toSaveMap());
+    } catch (e) {
+      log("Failed to save qanun: $e");
+    }
+  }
+
+  Future<bool> checkIsDownloaded(String id) async {
+    try {
+      final db = await database;
+      final exist = await db.query("qanun", where: "id=?", whereArgs: [id]);
+      return exist.isNotEmpty;
+    } catch (e) {
+      log("Failed to check is downloaded: $e");
+      return false;
     }
   }
 

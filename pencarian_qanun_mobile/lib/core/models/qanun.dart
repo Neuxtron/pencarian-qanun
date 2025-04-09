@@ -1,4 +1,5 @@
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
+import 'package:pencarian_qanun_mobile/core/utils/app_constants.dart';
 
 class Qanun {
   final String id;
@@ -6,7 +7,7 @@ class Qanun {
   final int tahun;
   final int nomor;
   final Komisi? komisi;
-  final DetailQanun? details;
+  DetailQanun? details;
 
   Qanun({
     required this.id,
@@ -16,6 +17,11 @@ class Qanun {
     required this.komisi,
     required this.details,
   });
+
+  String? get downloadUrl {
+    if (details == null) return null;
+    return "${AppConstants.baseUrl}/qanun/$id - ${details!.namaFile}";
+  }
 
   factory Qanun.fromJson(
     Map<String, dynamic> json, {
@@ -34,13 +40,24 @@ class Qanun {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toReadMap() {
     return {
       "id_qanun": id,
-      "nomor_komisi": komisi!.nomorKomisi,
+      "nomor_komisi": komisi!.nomorRomawi,
       "tahun": tahun,
       "nama": nama,
       "nomor": nomor,
+    };
+  }
+
+  Map<String, dynamic> toSaveMap() {
+    return {
+      "id": id,
+      "id_komisi": komisi!.id,
+      "tahun": tahun,
+      "nomor_qanun": nomor,
+      "nama_qanun": nama,
+      "nama_file": id,
     };
   }
 }

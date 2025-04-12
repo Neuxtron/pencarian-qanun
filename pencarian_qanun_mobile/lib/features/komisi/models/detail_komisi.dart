@@ -22,4 +22,13 @@ class DetailKomisi {
           .toList(),
     );
   }
+
+  factory DetailKomisi.fromDatabase(Map<String, dynamic> json) {
+    final listQanunJson = json["listQanun"] as Iterable;
+
+    return DetailKomisi(
+      tahun: json["tahun"],
+      listQanun: listQanunJson.map((e) => Qanun.fromDatabase(e)).toList(),
+    );
+  }
 }

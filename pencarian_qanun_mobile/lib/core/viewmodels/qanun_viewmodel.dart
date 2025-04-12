@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
+import 'package:pencarian_qanun_mobile/core/providers/connection_mode_provider.dart';
 import 'package:pencarian_qanun_mobile/core/repositories/qanun_repository.dart';
+import 'package:pencarian_qanun_mobile/core/services/database_service.dart';
 import 'package:pencarian_qanun_mobile/shared/utils/app_utils.dart';
+import 'package:provider/provider.dart';
 
 class QanunViewmodel extends ChangeNotifier {
+  late BuildContext context;
+
   final _repository = QanunRepository();
 
   Qanun? _selectedQanun;
@@ -11,6 +16,8 @@ class QanunViewmodel extends ChangeNotifier {
 
   Qanun? get selectedQanun => _selectedQanun;
   bool? get isDownloaded => _isDownloaded;
+  ConnectionModeProvider get _modeProvider =>
+      context.read<ConnectionModeProvider>();
 
   Future selectQanun(Qanun? qanun) async {
     _selectedQanun = qanun!;
@@ -18,24 +25,34 @@ class QanunViewmodel extends ChangeNotifier {
   }
 
   Future<Qanun> getDetailQanun() async {
-    _selectedQanun!.details =
-        await _repository.getDetailQanun(_selectedQanun!.id);
+    if (_modeProvider.isOnline) {
+      _selectedQanun!.details =
+          await _repository.getDetailQanun(_selectedQanun!.id);
+    } else {
+      _selectedQanun!.details = await _getOfflineDetailQanun();
+    }
     _isDownloaded = await _repository.checkIsDownloaded(_selectedQanun!.id);
     notifyListeners();
     return _selectedQanun!;
   }
 
-  Future downloadQanun() async {
-    if (_selectedQanun?.details == null) return;
+  void downloadQanun(BuildContext context) {
+    AppUtils.showSnackbar(context, "Mengunduh qanun...");
+    _repository.downloadQanun(_selectedQanun!).then((success) {
+      if (success) {
+        AppUtils.showSnackbar(context, "Berhasil mengunduh qanun");
+        _isDownloaded = true;
+        notifyListeners();
+      } else {
+        AppUtils.showSnackbar(context, "Gagal mengunduh qanun");
+      }
+    });
+  }
 
-    AppUtils.showToast("Mengunduh qanun...");
-    final success = await _repository.downloadQanun(_selectedQanun!);
-    if (success) {
-      AppUtils.showToast("Berhasil mengunduh qanun");
-      _isDownloaded = true;
-      notifyListeners();
-    } else {
-      AppUtils.showToast("Gagal mengunduh qanun");
-    }
+  Future<DetailQanun> _getOfflineDetailQanun() async {
+    _modeProvider.isOnline = false;
+    final qanunJson =
+        await DatabaseService().getDetailQanun(_selectedQanun!.id);
+    return Qanun.fromDatabase(qanunJson).details!;
   }
 }

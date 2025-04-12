@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
+import 'package:pencarian_qanun_mobile/core/providers/connection_mode_provider.dart';
 import 'package:pencarian_qanun_mobile/core/viewmodels/qanun_viewmodel.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_radius.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_text_styles.dart';
+import 'package:pencarian_qanun_mobile/shared/widgets/snapshot_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -16,6 +21,11 @@ class QanunPage extends StatefulWidget {
 
 class _QanunPageState extends State<QanunPage> {
   late Future<Qanun> _future;
+
+  Future<File> _getLocalFile(String id) async {
+    final dir = await getApplicationDocumentsDirectory();
+    return File('${dir.path}/$id.pdf');
+  }
 
   AppBar _buildAppBar(bool isReady) {
     return AppBar(
@@ -39,7 +49,7 @@ class _QanunPageState extends State<QanunPage> {
         icon: const Icon(Icons.star_outline),
       ),
       IconButton(
-        onPressed: isDownloaded ? null : viewModel.downloadQanun,
+        onPressed: isDownloaded ? null : () => viewModel.downloadQanun(context),
         icon: Icon(
           isDownloaded
               ? Icons.download_for_offline
@@ -59,6 +69,7 @@ class _QanunPageState extends State<QanunPage> {
   @override
   Widget build(BuildContext context) {
     final qanun = context.watch<QanunViewmodel>().selectedQanun!;
+    final isOnline = context.read<ConnectionModeProvider>().isOnline;
 
     return Scaffold(
       appBar: _buildAppBar(qanun.details != null),
@@ -87,24 +98,30 @@ class _QanunPageState extends State<QanunPage> {
           ),
           const SizedBox(height: 12),
           Expanded(
-            child: FutureBuilder(
-              future: _future,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                if (snapshot.hasError || snapshot.data?.details == null) {
-                  return const Center(
-                    child: Text("Terjadi kesalahan"),
-                  );
-                }
-
-                return SfPdfViewer.network(qanun.downloadUrl!);
-              },
-            ),
+            child: isOnline
+                ? FutureBuilder(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SnapshotHandler(snapshot: snapshot),
+                        );
+                      }
+                      return SfPdfViewer.network(qanun.downloadUrl!);
+                    },
+                  )
+                : FutureBuilder(
+                    future: _getLocalFile(qanun.id),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SnapshotHandler(snapshot: snapshot),
+                        );
+                      }
+                      final file = snapshot.data!;
+                      return SfPdfViewer.file(file);
+                    },
+                  ),
           ),
         ],
       ),

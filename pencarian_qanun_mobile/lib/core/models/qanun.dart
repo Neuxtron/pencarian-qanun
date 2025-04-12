@@ -40,6 +40,24 @@ class Qanun {
     );
   }
 
+  factory Qanun.fromDatabase(Map<String, dynamic> json) {
+    final komisiJson = {
+      "id": json["id_komisi"],
+      "nama_komisi": json["nama_komisi"],
+      "nomor_komisi": json["nomor_komisi"],
+    };
+    final detailsJson = json["details"];
+
+    return Qanun(
+      id: json["id"],
+      nama: json["nama_qanun"],
+      tahun: json["tahun"],
+      nomor: json["nomor_qanun"],
+      komisi: Komisi.fromDatabase(komisiJson),
+      details: detailsJson != null ? DetailQanun.fromJson(detailsJson) : null,
+    );
+  }
+
   Map<String, dynamic> toReadMap() {
     return {
       "id_qanun": id,

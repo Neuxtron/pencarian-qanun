@@ -98,7 +98,7 @@ class _DetailKomisiListViewState extends State<_DetailKomisiListView> {
   @override
   void initState() {
     super.initState();
-    _future = KomisiRepository().getDetailKomisi(widget.idKomisi);
+    _future = KomisiRepository(context).getDetailKomisi(widget.idKomisi);
   }
 
   @override

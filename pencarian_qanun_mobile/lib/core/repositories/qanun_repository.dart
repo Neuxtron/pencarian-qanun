@@ -41,7 +41,7 @@ class QanunRepository {
         throw Exception("Download Failed: ${response.statusCode}");
       }
       final dir = await getApplicationDocumentsDirectory();
-      final file = File('${dir.path}/${qanun.id}');
+      final file = File('${dir.path}/${qanun.id}.pdf');
 
       await file.writeAsBytes(response.bodyBytes);
       log('File downloaded to: ${file.path}');

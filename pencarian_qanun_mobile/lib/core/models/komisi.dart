@@ -10,15 +10,17 @@ class Komisi {
     required this.nama,
     required this.nomor,
   });
-  
+
   String get nomorRomawi => AppUtils.toRoman(nomor);
 
   factory Komisi.fromJson(Map<String, dynamic> json) {
     return Komisi(
-      id: json["id"],
-      nama: json["nama"],
-      nomor: json["nomorKomisi"]
-    );
+        id: json["id"], nama: json["nama"], nomor: json["nomorKomisi"]);
+  }
+
+  factory Komisi.fromDatabase(Map<String, dynamic> json) {
+    return Komisi(
+        id: json["id"], nama: json["nama_komisi"], nomor: json["nomor_komisi"]);
   }
 
   Map<String, dynamic> toSaveMap() {

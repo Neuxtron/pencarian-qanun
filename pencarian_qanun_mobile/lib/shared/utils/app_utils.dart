@@ -43,7 +43,14 @@ class AppUtils {
       elevation: 0,
       toolbarHeight: 0,
       shadowColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
       backgroundColor: backgroundColor ?? AppColors.background,
+    );
+  }
+
+  static showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
     );
   }
 

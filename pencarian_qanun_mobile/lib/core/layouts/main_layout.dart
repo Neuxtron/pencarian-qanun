@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
+import 'package:pencarian_qanun_mobile/core/providers/connection_mode_provider.dart';
 import 'package:pencarian_qanun_mobile/core/repositories/komisi_repository.dart';
+import 'package:pencarian_qanun_mobile/core/viewmodels/qanun_viewmodel.dart';
 import 'package:pencarian_qanun_mobile/features/home/views/home_page.dart';
 import 'package:pencarian_qanun_mobile/features/pencarian/views/pencarian_page.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/utils/app_utils.dart';
+import 'package:provider/provider.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -15,11 +18,12 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
-  late Future<List<Komisi>> _komisiFuture;
+  Future<List<Komisi>>? _komisiFuture;
+  bool _isReady = false;
 
   List<Widget> get _pages => [
         HomePage(
-          komisiFuture: _komisiFuture,
+          komisiFuture: _komisiFuture!,
           changeIndex: _changeIndex,
         ),
         const PencarianPage(),
@@ -41,7 +45,12 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   void initState() {
     super.initState();
-    _komisiFuture = KomisiRepository().getKomisi();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ConnectionModeProvider>().context = context;
+      context.read<QanunViewmodel>().context = context;
+      _komisiFuture ??= KomisiRepository(context).getKomisi();
+      setState(() => _isReady = true);
+    });
   }
 
   @override
@@ -55,7 +64,7 @@ class _MainLayoutState extends State<MainLayout> {
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 100),
-              child: _pages[_currentIndex],
+              child: _isReady ? _pages[_currentIndex] : null,
             ),
           ),
           _BottomNav(

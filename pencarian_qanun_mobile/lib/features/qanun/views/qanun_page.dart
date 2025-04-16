@@ -39,14 +39,14 @@ class _QanunPageState extends State<QanunPage> {
     if (!isReady) return [];
 
     final viewModel = context.read<QanunViewmodel>();
-    final isDownloaded = context.select<QanunViewmodel, bool>((viewModel) {
-      return viewModel.isDownloaded!;
-    });
+    final viewModelWatch = context.watch<QanunViewmodel>();
+    final isDownloaded = viewModelWatch.isDownloaded!;
+    final isDibintang = viewModelWatch.isDibintang!;
 
     return [
       IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.star_outline),
+        onPressed: viewModel.bintangQanun,
+        icon: Icon(isDibintang ? Icons.star : Icons.star_outline),
       ),
       IconButton(
         onPressed: isDownloaded ? null : () => viewModel.downloadQanun(context),

@@ -69,10 +69,11 @@ class DatabaseService {
           CREATE TABLE qanun_dibintang (
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             id_qanun VARCHAR NOT NULL,
-            nomor_komisi INTEGER NOT NULL,
+            id_komisi INTEGER NOT NULL,
             tahun INTEGER NOT NULL,
-            nama INTEGER NOT NULL,
-            nomor INTEGER NOT NULL
+            nama_qanun INTEGER NOT NULL,
+            nomor_qanun INTEGER NOT NULL,
+            FOREIGN KEY(id_komisi) REFERENCES komisi(id) ON DELETE CASCADE ON UPDATE CASCADE
           )
         """);
 
@@ -89,6 +90,57 @@ class DatabaseService {
   }
 
   //-----/ Qanun Dibintang /-----//
+  Future<bool> bintangQanun(Qanun qanun) async {
+    try {
+      final db = await database;
+      final exist = await db
+          .query("qanun_dibintang", where: "id_qanun=?", whereArgs: [qanun.id]);
+
+      if (exist.isEmpty) {
+        // Bintang qanun
+        await db.insert("qanun_dibintang", qanun.toReadMap());
+
+        // Simpan komisi
+        final komisiExist = await db
+            .query("komisi", where: "id=?", whereArgs: [qanun.komisi!.id]);
+        if (komisiExist.isEmpty) {
+          await db.insert("komisi", qanun.komisi!.toSaveMap());
+        }
+        return true;
+      } else {
+        // Hapus bintang qanun
+        await db.delete("qanun_dibintang",
+            where: "id_qanun=?", whereArgs: [qanun.id]);
+        return false;
+      }
+    } catch (e) {
+      log("Failed to star qanun: $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> checkIsDibintang(String id) async {
+    try {
+      final db = await database;
+      final exist = await db
+          .query("qanun_dibintang", where: "id_qanun=?", whereArgs: [id]);
+      return exist.isNotEmpty;
+    } catch (e) {
+      log("Failed to check is bintang: $e");
+      return false;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getQanunDibintang() async {
+    final db = await database;
+    const sql = """
+      SELECT qanun_dibintang.*, qanun_dibintang.id_qanun as id,
+      komisi.id as id_komisi, komisi.nama_komisi, komisi.nomor_komisi
+      FROM qanun_dibintang LEFT JOIN komisi ON komisi.id=qanun_dibintang.id_komisi
+      ORDER BY qanun_dibintang.id DESC
+    """;
+    return await db.rawQuery(sql);
+  }
 
   //-----/ Riwayat /-----//
   Future readQanun(Qanun qanun) async {
@@ -96,8 +148,12 @@ class DatabaseService {
       final db = await database;
       await db.delete("riwayat", where: "id_qanun=?", whereArgs: [qanun.id]);
       await db.insert("riwayat", qanun.toReadMap());
-      await db.delete("komisi", where: "id=?", whereArgs: [qanun.komisi!.id]);
-      await db.insert("komisi", qanun.komisi!.toSaveMap());
+
+      final komisiExist = await db
+          .query("komisi", where: "id=?", whereArgs: [qanun.komisi!.id]);
+      if (komisiExist.isEmpty) {
+        await db.insert("komisi", qanun.komisi!.toSaveMap());
+      }
     } catch (e) {
       log(e.toString());
     }

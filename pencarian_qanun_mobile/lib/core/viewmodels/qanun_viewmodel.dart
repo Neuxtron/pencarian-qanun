@@ -13,9 +13,11 @@ class QanunViewmodel extends ChangeNotifier {
 
   Qanun? _selectedQanun;
   bool? _isDownloaded;
+  bool? _isDibintang;
 
   Qanun? get selectedQanun => _selectedQanun;
   bool? get isDownloaded => _isDownloaded;
+  bool? get isDibintang => _isDibintang;
   ConnectionModeProvider get _modeProvider =>
       context.read<ConnectionModeProvider>();
 
@@ -32,6 +34,7 @@ class QanunViewmodel extends ChangeNotifier {
       _selectedQanun!.details = await _getOfflineDetailQanun();
     }
     _isDownloaded = await _repository.checkIsDownloaded(_selectedQanun!.id);
+    _isDibintang = await _repository.checkIsDibintang(_selectedQanun!.id);
     notifyListeners();
     return _selectedQanun!;
   }
@@ -51,6 +54,15 @@ class QanunViewmodel extends ChangeNotifier {
 
   Future<List<Qanun>> getRiwayatQanun() async {
     return _repository.getRiwayatQanun();
+  }
+
+  Future bintangQanun() async {
+    _isDibintang = await _repository.bintangQanun(_selectedQanun!);
+    notifyListeners();
+  }
+
+  Future<List<Qanun>> getQanunDibintang() async {
+    return _repository.getQanunDibintang();
   }
 
   Future<DetailQanun> _getOfflineDetailQanun() async {

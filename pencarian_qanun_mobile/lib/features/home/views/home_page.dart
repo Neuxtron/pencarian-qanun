@@ -40,7 +40,6 @@ class _QuickActions extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        // TODO: onpressed
         children: [
           _QuickActionsItem(
             icon: Icons.history,
@@ -57,7 +56,9 @@ class _QuickActions extends StatelessWidget {
           _QuickActionsItem(
             icon: Icons.star_border,
             text: "Qanun Dibintang",
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.dibintang);
+            },
           ),
           _QuickActionsItem(
             icon: Icons.face,

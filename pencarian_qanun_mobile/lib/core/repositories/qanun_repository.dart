@@ -31,7 +31,7 @@ class QanunRepository {
   }
 
   Future readQanun(Qanun qanun) async {
-    _databaseService.readQanun(qanun);
+    await _databaseService.readQanun(qanun);
   }
 
   Future<bool> downloadQanun(Qanun qanun) async {
@@ -60,8 +60,25 @@ class QanunRepository {
   Future<List<Qanun>> getRiwayatQanun() async {
     try {
       final riwayatMap = await _databaseService.getRiwayatQanun();
-      print(riwayatMap);
       return riwayatMap.map((e) => Qanun.fromDatabase(e)).toList();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> bintangQanun(Qanun qanun) async {
+    return _databaseService.bintangQanun(qanun);
+  }
+
+  Future<bool> checkIsDibintang(String id) async {
+    return _databaseService.checkIsDibintang(id);
+  }
+
+  Future<List<Qanun>> getQanunDibintang() async {
+    try {
+      final dibintangMap = await _databaseService.getQanunDibintang();
+      return dibintangMap.map((e) => Qanun.fromDatabase(e)).toList();
     } catch (e) {
       log(e.toString());
       rethrow;

@@ -25,7 +25,7 @@ class QanunItem extends StatelessWidget {
 
     return Container(
       height: 64,
-      margin: const EdgeInsets.symmetric(vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: AppRadius.small,

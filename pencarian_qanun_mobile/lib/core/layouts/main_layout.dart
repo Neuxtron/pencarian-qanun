@@ -26,9 +26,15 @@ class _MainLayoutState extends State<MainLayout> {
           komisiFuture: _komisiFuture!,
           changeIndex: _changeIndex,
         ),
-        const PencarianPage(),
-        const Center(
-          child: Text("Chatbot"),
+        _HandleBack(
+          changeIndex: _changeIndex,
+          child: const PencarianPage(),
+        ),
+        _HandleBack(
+          changeIndex: _changeIndex,
+          child: const Center(
+            child: Text("Chatbot"),
+          ),
         ),
       ];
 
@@ -210,6 +216,25 @@ class _NavItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _HandleBack extends StatelessWidget {
+  const _HandleBack({
+    required this.child,
+    required this.changeIndex,
+  });
+
+  final Function(int index) changeIndex;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) => changeIndex(0),
+      child: child,
     );
   }
 }

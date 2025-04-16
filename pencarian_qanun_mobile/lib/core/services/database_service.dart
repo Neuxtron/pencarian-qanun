@@ -56,10 +56,11 @@ class DatabaseService {
           CREATE TABLE  riwayat (
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             id_qanun VARCHAR NOT NULL,
-            nomor_komisi INTEGER NOT NULL,
+            id_komisi VARCHAR NOT NULL,
             tahun INTEGER NOT NULL,
-            nama INTEGER NOT NULL,
-            nomor INTEGER NOT NULL
+            nama_qanun INTEGER NOT NULL,
+            nomor_qanun INTEGER NOT NULL,
+            FOREIGN KEY(id_komisi) REFERENCES komisi(id) ON DELETE CASCADE ON UPDATE CASCADE
           )
         """);
 
@@ -90,6 +91,28 @@ class DatabaseService {
   //-----/ Qanun Dibintang /-----//
 
   //-----/ Riwayat /-----//
+  Future readQanun(Qanun qanun) async {
+    try {
+      final db = await database;
+      await db.delete("riwayat", where: "id_qanun=?", whereArgs: [qanun.id]);
+      await db.insert("riwayat", qanun.toReadMap());
+      await db.delete("komisi", where: "id=?", whereArgs: [qanun.komisi!.id]);
+      await db.insert("komisi", qanun.komisi!.toSaveMap());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getRiwayatQanun() async {
+    final db = await database;
+    const sql = """
+      SELECT riwayat.*, riwayat.id_qanun as id,
+      komisi.id as id_komisi, komisi.nama_komisi, komisi.nomor_komisi
+      FROM riwayat LEFT JOIN komisi ON komisi.id=riwayat.id_komisi
+      ORDER BY riwayat.id DESC
+    """;
+    return await db.rawQuery(sql);
+  }
 
   //-----/ Riwayat Pencarian /-----//
   Future<List<String>> getRiwayatPencarian() async {
@@ -122,20 +145,22 @@ class DatabaseService {
 
   Future<List<Map<String, dynamic>>> getKomisi() async {
     final db = await database;
-    return db.query("komisi", orderBy: "nomor_komisi ASC");
+    final listQanun = await db.query("qanun");
+    final listIdKomisi = [];
+    for (var qanun in listQanun) {
+      final idKomisi = qanun["id_komisi"];
+      if (!listIdKomisi.contains(idKomisi)) listIdKomisi.add(idKomisi);
+    }
+
+    final inArgs =
+        jsonEncode(listIdKomisi).replaceAll("[", "(").replaceAll("]", ")");
+    final sql =
+        "SELECT * FROM komisi WHERE id IN $inArgs ORDER BY nomor_komisi ASC";
+    final filteredKomisi = await db.rawQuery(sql);
+    return filteredKomisi;
   }
 
   //-----/ Qanun /-----//
-  Future readQanun(Qanun qanun) async {
-    try {
-      final db = await database;
-      await db.delete("riwayat", where: "id_qanun=?", whereArgs: [qanun.id]);
-      await db.insert("riwayat", qanun.toReadMap());
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
   Future saveQanun(Qanun qanun) async {
     try {
       final db = await database;

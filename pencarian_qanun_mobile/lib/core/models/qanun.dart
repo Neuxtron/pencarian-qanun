@@ -61,10 +61,10 @@ class Qanun {
   Map<String, dynamic> toReadMap() {
     return {
       "id_qanun": id,
-      "nomor_komisi": komisi!.nomorRomawi,
+      "id_komisi": komisi!.id,
       "tahun": tahun,
-      "nama": nama,
-      "nomor": nomor,
+      "nama_qanun": nama,
+      "nomor_qanun": nomor,
     };
   }
 

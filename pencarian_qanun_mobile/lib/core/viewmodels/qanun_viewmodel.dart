@@ -49,6 +49,10 @@ class QanunViewmodel extends ChangeNotifier {
     });
   }
 
+  Future<List<Qanun>> getRiwayatQanun() async {
+    return _repository.getRiwayatQanun();
+  }
+
   Future<DetailQanun> _getOfflineDetailQanun() async {
     _modeProvider.isOnline = false;
     final qanunJson =

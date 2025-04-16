@@ -45,7 +45,9 @@ class _QuickActions extends StatelessWidget {
           _QuickActionsItem(
             icon: Icons.history,
             text: "Riwayat",
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.riwayat);
+            },
           ),
           _QuickActionsItem(
             icon: Icons.search,

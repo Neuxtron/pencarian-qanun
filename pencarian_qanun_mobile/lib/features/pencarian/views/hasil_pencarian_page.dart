@@ -28,7 +28,7 @@ class HasilPencarianPage extends StatelessWidget {
             if (!snapshot.hasData) {
               return SnapshotHandler(snapshot: snapshot);
             }
-    
+
             final listQanun = snapshot.data!;
             return ListView.builder(
               shrinkWrap: true,

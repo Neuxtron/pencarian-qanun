@@ -56,4 +56,15 @@ class QanunRepository {
   Future<bool> checkIsDownloaded(String id) async {
     return _databaseService.checkIsDownloaded(id);
   }
+
+  Future<List<Qanun>> getRiwayatQanun() async {
+    try {
+      final riwayatMap = await _databaseService.getRiwayatQanun();
+      print(riwayatMap);
+      return riwayatMap.map((e) => Qanun.fromDatabase(e)).toList();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }

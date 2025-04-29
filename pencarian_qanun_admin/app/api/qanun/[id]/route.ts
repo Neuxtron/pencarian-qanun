@@ -15,6 +15,13 @@ export async function GET(_: Request, { params }: GetParams) {
       }
     })
 
+    await db.qanun.update({
+      where: { id },
+      data: {
+        views: { increment: 1 }
+      }
+    })
+
     const formattedQanun = {
       ...qanun,
       details: {

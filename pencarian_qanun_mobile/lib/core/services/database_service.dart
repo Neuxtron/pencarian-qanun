@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:path/path.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
 import 'package:pencarian_qanun_mobile/core/models/qanun.dart';
+import 'package:pencarian_qanun_mobile/features/chatbot/models/message.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
@@ -83,6 +84,16 @@ class DatabaseService {
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             id_qanun VARCHAR NOT NULL,
             text VARCHAR NOT NULL
+          )
+        """);
+
+        //-----/ Migrate Tags Table /-----//
+        await db.execute("""
+          CREATE TABLE chatbot_messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            is_sender BOOLEAN NOT NULL,
+            content VARCHAR NOT NULL,
+            timestamp INTEGER NOT NULL
           )
         """);
       },
@@ -281,5 +292,20 @@ class DatabaseService {
   Future<List<Map<String, dynamic>>> _getQanunTags(String id) async {
     final db = await database;
     return db.query("tag", where: "id_qanun=?", whereArgs: [id]);
+  }
+
+  //-----/ Chatbot Messages /-----//
+  Future saveMessage(Message message) async {
+    try {
+      final db = await database;
+      await db.insert("chatbot_messages", message.toMap());
+    } catch (e) {
+      log("Failed to save message: $e");
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getMessages() async {
+    final db = await database;
+    return await db.query("chatbot_messages");
   }
 }

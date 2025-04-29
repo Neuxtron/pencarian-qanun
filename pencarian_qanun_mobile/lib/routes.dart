@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/layouts/main_layout.dart';
-import 'package:pencarian_qanun_mobile/features/dibintang/view/dibintang_page.dart';
+import 'package:pencarian_qanun_mobile/features/chatbot/viewmodels/chatbot_viewmodel.dart';
+import 'package:pencarian_qanun_mobile/features/chatbot/views/chatbot_page.dart';
+import 'package:pencarian_qanun_mobile/features/dibintang/views/dibintang_page.dart';
 import 'package:pencarian_qanun_mobile/features/komisi/views/komisi_page.dart';
 import 'package:pencarian_qanun_mobile/features/qanun/views/qanun_page.dart';
 import 'package:pencarian_qanun_mobile/features/riwayat/views/riwayat_page.dart';
+import 'package:provider/provider.dart';
 
 class Routes {
   static const String main = "/";
@@ -12,6 +15,7 @@ class Routes {
   static const String qanun = "/qanun";
   static const String riwayat = "/riwayat";
   static const String dibintang = "/dibintang";
+  static const String chatbot = "/chatbot";
 
   static final Map<String, Widget Function(BuildContext)> routes = {
     main: (context) => const MainLayout(),
@@ -19,5 +23,11 @@ class Routes {
     qanun: (context) => const QanunPage(),
     riwayat: (context) => const RiwayatPage(),
     dibintang: (context) => const DibintangPage(),
+    chatbot: (context) {
+      return ChangeNotifierProvider(
+        create: (context) => ChatbotViewmodel(),
+        child: const ChatbotPage(),
+      );
+    },
   };
 }

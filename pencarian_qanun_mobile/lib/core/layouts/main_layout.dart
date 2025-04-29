@@ -5,6 +5,7 @@ import 'package:pencarian_qanun_mobile/core/repositories/komisi_repository.dart'
 import 'package:pencarian_qanun_mobile/core/viewmodels/qanun_viewmodel.dart';
 import 'package:pencarian_qanun_mobile/features/home/views/home_page.dart';
 import 'package:pencarian_qanun_mobile/features/pencarian/views/pencarian_page.dart';
+import 'package:pencarian_qanun_mobile/routes.dart';
 import 'package:pencarian_qanun_mobile/shared/styles/app_colors.dart';
 import 'package:pencarian_qanun_mobile/shared/utils/app_utils.dart';
 import 'package:provider/provider.dart';
@@ -41,10 +42,14 @@ class _MainLayoutState extends State<MainLayout> {
   final List<AppBar?> _appBars = [
     AppUtils.emptyAppBar(),
     AppUtils.emptyAppBar(),
-    null,
+    AppUtils.emptyAppBar(),
   ];
 
   _changeIndex(int index) {
+    if (index == 2) {
+      Navigator.pushNamed(context, Routes.chatbot);
+      return;
+    }
     setState(() => _currentIndex = index);
   }
 

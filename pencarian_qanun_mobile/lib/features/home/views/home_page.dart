@@ -63,7 +63,9 @@ class _QuickActions extends StatelessWidget {
           _QuickActionsItem(
             icon: Icons.face,
             text: "Bertanya dengan AI",
-            onPressed: () => changeIndex(2),
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.chatbot);
+            },
           ),
         ],
       ),

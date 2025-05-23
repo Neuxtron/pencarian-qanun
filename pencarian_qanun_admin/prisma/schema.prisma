@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  // binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -19,6 +20,8 @@ model Komisi {
   nama        String @map("nama_komisi")
 
   Qanun Qanun[]
+
+  @@map("komisi")
 }
 
 model Qanun {
@@ -33,6 +36,8 @@ model Qanun {
   komisi Komisi @relation(fields: [idKomisi], references: [id], onDelete: Cascade)
 
   tags Tag[]
+
+  @@map("qanun")
 }
 
 model Tag {
@@ -41,10 +46,14 @@ model Tag {
   text    String
 
   qanun Qanun @relation(fields: [idQanun], references: [id], onDelete: Cascade)
+
+  @@map("tag")
 }
 
 model Users {
   id       String @id @default(uuid())
   username String
   password String
+
+  @@map("users")
 }

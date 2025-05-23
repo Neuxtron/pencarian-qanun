@@ -21,4 +21,6 @@ const AppInput = forwardRef<HTMLInputElement, AppInputProps>(({ className, id, p
   )
 })
 
+AppInput.displayName = "AppInput"
+
 export default AppInput

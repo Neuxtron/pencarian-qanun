@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pencarian_qanun_mobile/core/models/komisi.dart';
 import 'package:pencarian_qanun_mobile/routes.dart';
@@ -20,12 +22,44 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const _ListLembaga(),
         const _PageHeader(),
         _QuickActions(
           changeIndex: changeIndex,
         ),
         _KomisiGridView(komisiFuture: komisiFuture),
       ],
+    );
+  }
+}
+
+class _ListLembaga extends StatelessWidget {
+  const _ListLembaga();
+
+  @override
+  Widget build(BuildContext context) {
+    const double imageSize = 40;
+    final listGambar = [
+      "assets/images/lembaga/dinas_syariat_islam.png",
+      "assets/images/lembaga/dpr_aceh.png",
+      "assets/images/lembaga/kementrian_dalam_negeri.png",
+      "assets/images/lembaga/mahkamah_syariah.png",
+      "assets/images/lembaga/wilayatul_hisbah.png",
+    ];
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 24, 12, 0),
+      child: Row(
+        children: listGambar.map((gambar) {
+          return Expanded(
+            child: Image.asset(
+              gambar,
+              width: imageSize,
+              height: imageSize,
+              fit: BoxFit.contain,
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }

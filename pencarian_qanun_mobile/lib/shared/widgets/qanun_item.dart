@@ -71,7 +71,11 @@ class QanunItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(qanun.nama),
+                            Text(
+                              qanun.nama,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             Text(
                               "$subtitleLeading${qanun.tahun} No. ${qanun.nomor}",
                               style: const TextStyle(color: AppColors.caption),

@@ -17,7 +17,8 @@ function EditQanunActions({ postHapus, qanun, isLoading, setLoading }: EditQanun
       icon: 'warning',
       title: "Apakah Anda ingin menghapus Qanun ini?",
       showCancelButton: true,
-      confirmButtonColor: themeColors.primary,
+      confirmButtonColor: themeColors.danger,
+      confirmButtonText: "Hapus",
     })
     if (!result.isConfirmed) return
 

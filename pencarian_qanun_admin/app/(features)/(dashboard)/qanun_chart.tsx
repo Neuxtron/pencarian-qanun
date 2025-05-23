@@ -20,7 +20,7 @@ function QanunChart({ data }: QanunChartProps) {
           startAngle: -179,
           endAngle: 180,
           cx: 75,
-          valueFormatter: (value) => "",
+          valueFormatter: (_) => "",
         }
       ]}
     />

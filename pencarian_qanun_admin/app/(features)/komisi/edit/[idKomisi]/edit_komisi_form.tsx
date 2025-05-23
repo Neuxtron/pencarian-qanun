@@ -32,7 +32,6 @@ function EditKomisiForm({ komisi }: EditKomisiFormProps) {
       cancelButtonText: "Batal",
       confirmButtonColor: themeColors.danger,
       confirmButtonText: "Hapus",
-      reverseButtons: true,
     })
     if (!result.isConfirmed) return
 

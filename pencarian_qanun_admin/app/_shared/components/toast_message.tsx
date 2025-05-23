@@ -11,11 +11,11 @@ function ToastMessage() {
 
 function useShowToast() {
   const params = useSearchParams()
-  const icon = params.get('icon')
-  const title = params.get('title')
   const router = useRouter()
   
   useEffect(() => {
+    const icon = params.get('icon')
+    const title = params.get('title')
     if (!icon || !title) return
     Swal.mixin({
       toast: true,
@@ -29,7 +29,7 @@ function useShowToast() {
     }).fire()
 
     router.push(window.location.pathname)
-  }, [])
+  }, [params, router])
 }
 
 export default ToastMessage

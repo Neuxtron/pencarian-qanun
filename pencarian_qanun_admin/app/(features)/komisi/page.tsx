@@ -6,6 +6,7 @@ import { v4 } from "uuid"
 import Link from "next/link"
 import { getKomisi } from "@/app/_actions/komisi"
 import ToastMessage from "../../_shared/components/toast_message"
+import { Suspense } from "react"
 
 function DaftarKomisi() {
   return (
@@ -17,7 +18,9 @@ function DaftarKomisi() {
         <TableHead />
         <TableBody />
       </table>
-      <ToastMessage />
+      <Suspense>
+        <ToastMessage />
+      </Suspense>
     </MainLayout>
   )
 }

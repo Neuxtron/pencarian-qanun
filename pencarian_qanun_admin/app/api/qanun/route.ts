@@ -2,10 +2,7 @@
 
 import { getQanun, GetQanunArguments } from "@/app/_actions/qanun"
 
-interface GetParams {
-  searchParams: Promise<{ search: string }>
-}
-export async function GET(request: Request, { searchParams: params }: GetParams) {
+export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const search = searchParams.get("search") ?? ""

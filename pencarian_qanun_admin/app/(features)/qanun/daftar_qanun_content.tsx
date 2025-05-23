@@ -45,14 +45,15 @@ function DaftarQanunContent({ allQanun, listKomisi }: DaftarQanunContentProps) {
   
   return (
     <>
-      <CariQanunForm onSearch={handleSearch} />
+      {/* TODO: uncomment */}
+      {/* <CariQanunForm onSearch={handleSearch} /> */}
       <PageActions
         selectedKomisi={komisi}
         onKomisiChange={handleKomisiChange}
         listKomisi={listKomisi}
       />
       <table className="data-table">
-        <TableHead selectedOrder={selectedOrder} setOrder={handleOrderQanun} />
+        <TableHead selectedOrder={selectedOrder as Prisma.QanunOrderByWithRelationInput} setOrder={handleOrderQanun} />
         <TableBody listQanun={listQanun} />
       </table>
     </>
@@ -67,18 +68,23 @@ interface PageActionsProps {
 function PageActions({ selectedKomisi, onKomisiChange: handleKomisiChange, listKomisi }: PageActionsProps) {
   
   return (
-    <div className="flex justify-between pt-8">
-      <Link href="/qanun/tambah">
-        <ElevatedButton>+ Tambah</ElevatedButton>
-      </Link>
-      <div className="flex flex-col items-end">
-        <FilterKomisiButton
-          listKomisi={listKomisi}
-          selectedKomisi={selectedKomisi}
-          onChange={handleKomisiChange}
-        />
-      </div>
-    </div>
+    // TODO: remove
+    <Link href="/qanun/tambah">
+      <ElevatedButton>+ Tambah</ElevatedButton>
+    </Link>
+    // TODO: uncomment
+    // <div className="flex justify-between pt-8">
+    //   <Link href="/qanun/tambah">
+    //     <ElevatedButton>+ Tambah</ElevatedButton>
+    //   </Link>
+    //   <div className="flex flex-col items-end">
+    //     <FilterKomisiButton
+    //       listKomisi={listKomisi}
+    //       selectedKomisi={selectedKomisi}
+    //       onChange={handleKomisiChange}
+    //     />
+    //   </div>
+    // </div>
   )
 }
 

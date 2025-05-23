@@ -100,11 +100,10 @@ class _ChatbotPageState extends State<ChatbotPage> {
             ),
           ),
           if (_isLoading)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(64, 0, 64, 24),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(64, 0, 64, 24),
               child: LinearProgressIndicator(),
             ),
-          // TODO: update view count in admin;;
           Container(
             constraints: const BoxConstraints(maxHeight: 150),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),

@@ -7,6 +7,7 @@ import { FormEventHandler, ReactNode, useState } from "react"
 import RincianQanun from "./rincian_qanun"
 import TagQanun from "./tag_qanun"
 import LampiranQanun from "./lampiran_qanun"
+import { maxQanunSize } from "@/app/_core/utils/constants"
 
 interface QanunFormProps {
   listKomisi: Komisi[]
@@ -20,7 +21,7 @@ function QanunForm({ listKomisi, onSubmit, formActions, qanun, listTags: default
   const [fileError, setFileError] = useState("")
   const [komisi, setKomisi] = useState<string | undefined>(qanun?.idKomisi)
 
-  const maxSizeMb = parseInt(process.env.NEXT_PUBLIC_MAX_QANUN_SIZE ?? "1")
+  const maxSizeMb = maxQanunSize
   const maxSize = maxSizeMb * 1024 * 1024
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {

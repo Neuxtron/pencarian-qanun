@@ -11,3 +11,4 @@ export const themeColors = {
 }
 
 export const qanunFolderPath = "qanun"
+export const maxQanunSize = 20

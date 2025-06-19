@@ -3,13 +3,12 @@ import "./globals.css";
 import { CSSProperties } from "react"
 import { themeColors } from "./_core/utils/constants"
 
-
-
 export const metadata: Metadata = {
   title: "Admin Panel",
   description: "Admin panel untuk Pencarian Qanun",
 };
 
+export const dynamic = 'force-dynamic';
 export default function RootLayout({
   children,
 }: Readonly<{

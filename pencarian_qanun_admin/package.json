@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx prisma generate -- npx prisma migrate deploy -- next build",
+    "build": "npx prisma generate && npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev"
+    "migrate:dev": "dotenv -e .env.development && npx prisma migrate dev"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

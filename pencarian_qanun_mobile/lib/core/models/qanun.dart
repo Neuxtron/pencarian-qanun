@@ -20,7 +20,7 @@ class Qanun {
 
   String? get downloadUrl {
     if (details == null) return null;
-    return "${AppConstants.baseUrl}/qanun/$id - ${details!.namaFile}";
+    return "${AppConstants.qanunUrl}/qanun/$id - ${details!.namaFile}";
   }
 
   factory Qanun.fromJson(

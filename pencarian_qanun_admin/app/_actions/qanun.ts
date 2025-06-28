@@ -7,6 +7,7 @@ import { Prisma, Qanun } from "@prisma/client"
 import path from "path"
 import { qanunFolderPath } from "../_core/utils/constants"
 import { unlink } from "fs/promises"
+import { v4 } from "uuid"
 
 export interface GetQanunArguments {
   komisi?: string
@@ -69,46 +70,24 @@ export const getSingleQanun = async (id: string) => {
   return { qanun, listTags }
 }
 
-// export const searchQanun = async (search: string) => {
-//   const tags = search ? search?.split(" ") : null
-  
-//   const allQanun = await db.qanun.findMany({
-//     include: { tags: true, komisi: true },
-//     orderBy: { tahun: "desc" },
-//   })
-//   const nameResult = await db.qanun.findMany({
-//     where: {
-//       nama: { contains: search },
-//     },
-//     orderBy: { tahun: "desc" },
-//     include: { komisi: true }
-//   })
-
-//   const nameResultIds = nameResult.map((qanun) => qanun.id)
-//   const tagsResult = allQanun.filter((qanun) => {
-//     if (nameResultIds.includes(qanun.id)) return false
-//     if (!tags) return true
-//     const qanunTags = qanun.tags.map((tag) => tag.text)
-    
-//     let valid = true
-//     tags.forEach((tag) => {
-//       if (!qanunTags.includes((tag))) valid = false
-//     })
-    
-//     return valid
-//   })
-
-//   const allResult = [...tagsResult, ...nameResult]
-  
-// }
-
 export const getQanunCount = async () => await db.qanun.count()
 
 //-----/ CREATE /-----//
 export const tambahQanun = async (newQanun: NewQanun, listTags: string[]) => {
   try {
+    const id = v4()
+
+    // TODO: upload file
+    const buffer = Buffer.from(await newQanun.file.arrayBuffer())
+    const fileName = `${id} - ${newQanun.file.name}`
+    await writeFile(
+      path.join(process.cwd(), "public", qanunFolderPath, fileName),
+      buffer
+    )
+    
     const qanun = await db.qanun.create({
       data: {
+        id,
         nama: newQanun.nama,
         idKomisi: newQanun.idKomisi,
         nomor: parseInt(newQanun.nomor),
@@ -123,13 +102,6 @@ export const tambahQanun = async (newQanun: NewQanun, listTags: string[]) => {
     await db.tag.createMany({
       data: tagsData
     })
-
-    const buffer = Buffer.from(await newQanun.file.arrayBuffer())
-    const fileName = `${qanun.id} - ${newQanun.file.name}`
-    await writeFile(
-      path.join(process.cwd(), "public", qanunFolderPath, fileName),
-      buffer
-    )
     return true
   } catch (error) {
     console.log(error)
@@ -142,6 +114,21 @@ export const editQanun = async (newQanun: NewQanun, listTags: string[], oldFileN
   const fileChanged = newQanun.file.size !== 0
   
   try {
+    if (fileChanged) {
+      // TODO: delete in qanun file api
+      const fileName = `${newQanun.id} - ${oldFileName}`
+      const filePath = path.join(process.cwd(), "public", qanunFolderPath, fileName)
+      await unlink(filePath).catch(err => console.log(err))
+
+      // TODO: upload file
+      const buffer = Buffer.from(await newQanun.file.arrayBuffer())
+      const newFileName = `${newQanun.id} - ${newQanun.file.name}`
+      await writeFile(
+        path.join(process.cwd(), "public", qanunFolderPath, newFileName),
+        buffer
+      )
+    }
+    
     await db.qanun.update({
       data: {
         nama: newQanun.nama,
@@ -167,18 +154,6 @@ export const editQanun = async (newQanun: NewQanun, listTags: string[], oldFileN
       idQanun: newQanun.id,
       text: { in: deletedTags }
     }})
-    if (!fileChanged) return true
-
-    const fileName = `${newQanun.id} - ${oldFileName}`
-    const filePath = path.join(process.cwd(), "public", qanunFolderPath, fileName)
-    await unlink(filePath).catch(err => console.log(err))
-
-    const buffer = Buffer.from(await newQanun.file.arrayBuffer())
-    const newFileName = `${newQanun.id} - ${newQanun.file.name}`
-    await writeFile(
-      path.join(process.cwd(), "public", qanunFolderPath, newFileName),
-      buffer
-    )
     return true
   } catch (error) {
     console.log(error)
@@ -189,9 +164,11 @@ export const editQanun = async (newQanun: NewQanun, listTags: string[], oldFileN
 //-----/ DELETE /-----//
 export const hapusQanun = async (qanun: Qanun) => {
   try {
+    // TODO: delete in qanun file api
     const fileName = `${qanun.id} - ${qanun.namaFile}`
     const filePath = path.join(process.cwd(), "public", qanunFolderPath, fileName)
     await unlink(filePath).catch(err => console.log(err))
+    
     await db.qanun.delete({ where: { id: qanun.id } })
     return true
   } catch (error) {

@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Prevent Apache from enforcing a trailing slash
+DirectorySlash Off
+
+RewriteRule ^upload_qanun$ index.php [L,QSA]
